@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>치매 예방 365</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .progress-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            border-radius: 5px;
+            transition: width 0.8s ease;
+            width: 0%;
+        }
+        
+        .progress-text {
+            margin-top: 10px;
+            font-size: 14px;
+            opacity: 0.8;
+            text-align: center;
+        }
+        
+        .main-container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .game-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .current-game-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .game-description {
+            font-size: 16px;
+            opacity: 0.9;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+        
+        .game-launch-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+            margin: 15px 0;
+            width: 100%;
+            max-width: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-launch-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
+        }
+        
+        .game-launch-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .game-launch-btn.completed {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .game-status {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border-left: 4px solid #FFD700;
+        }
+        
+        .status-title {
+            color: #FFD700;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .status-text {
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        
+        .game-url-display {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            word-break: break-all;
+            margin: 15px 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            opacity: 0.7;
+        }
+        
+        .completion-section {
+            background: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .completion-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .completion-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .restart-btn {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+        }
+        
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.6);
+        }
+        
+        .auto-progress-indicator {
+            background: rgba(33, 150, 243, 0.2);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+            text-align: left;
+        }
+        
+        .auto-progress-indicator .indicator-title {
+            color: #2196F3;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .countdown {
+            font-size: 18px;
+            font-weight: bold;
+            color: #FFD700;
+            margin: 10px 0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 480px) {
+            .title {
+                font-size: 28px;
+            }
+            
+            .game-container {
+                padding: 30px 20px;
+            }
+            
+            .completion-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">🧠 치매 예방 365</h1>
+        <p class="subtitle">순차적 두뇌 훈련으로 건강한 하루를 시작하세요!</p>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">게임 1/4 대기중</div>
+        </div>
+    </div>
+    
+    <div class="main-container">
+        <div class="game-container" id="gameContainer">
+            <div class="current-game-title" id="currentGameTitle">게임 1 - 기초 두뇌 훈련</div>
+            <div class="game-description" id="gameDescription">
+                첫 번째 두뇌 훈련 게임을 시작합니다.<br>
+                게임 완료 후 자동으로 다음 단계로 진행됩니다.
+            </div>
+            
+            <button class="game-launch-btn" id="launchBtn" onclick="launchCurrentGame()">
+                🎮 게임 시작하기
+            </button>
+            
+            <div class="game-url-display" id="gameUrlDisplay">
+                https://asitis7.github.io/Senior_Game/Senior_01_01.html
+            </div>
+            
+            <div class="game-status">
+                <div class="status-title">📋 자동 진행 시스템</div>
+                <div class="status-text" id="statusText">
+                    게임을 시작하면 새 창에서 열립니다.<br>
+                    게임 완료 후 이 창으로 돌아와서 "게임 완료" 버튼을 클릭하세요.<br>
+                    자동으로 다음 게임으로 진행됩니다.
+                </div>
+            </div>
+            
+            <div class="auto-progress-indicator hidden" id="autoProgressIndicator">
+                <div class="indicator-title">🔄 자동 진행 중...</div>
+                <div>다음 게임으로 자동 이동합니다</div>
+                <div class="countdown" id="countdown">3초 후 진행</div>
+            </div>
+        </div>
+        
+        <div class="completion-section hidden" id="completionSection">
+            <div class="completion-title">🎉 모든 게임 완료!</div>
+            <div class="completion-text">
+                4단계의 두뇌 훈련을 모두 마치셨습니다!<br>
+                매일 꾸준히 하시면 두뇌 건강 유지에 큰 도움이 됩니다.<br>
+                오늘도 수고하셨어요! 🌟
+            </div>
+            <button class="restart-btn" onclick="restartAllGames()">
+                🔄 처음부터 다시 시작
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let gameState = {
+            currentGameIndex: 0,
+            totalGames: 4,
+            gameWindow: null,
+            games: [
+                {
+                    url: 'https://asitis7.github.io/Senior_Game/Senior_01_01.html',
+                    title: '게임 1 - 기초 두뇌 훈련',
+                    description: '두뇌 활동의 기초를 다지는 첫 번째 훈련입니다.'
+                },
+                {
+                    url: 'https://asitis7.github.io/Senior_Game/Senior_01_02.html',
+                    title: '게임 2 - 집중력 향상',
+                    description: '집중력과 주의력을 키우는 두 번째 훈련입니다.'
+                },
+                {
+                    url: 'https://asitis7.github.io/Senior_Game/Senior_01_03.html',
+                    title: '게임 3 - 기억력 강화',
+                    description: '기억력과 인지 능력을 강화하는 세 번째 훈련입니다.'
+                },
+                {
+                    url: 'https://asitis7.github.io/Senior_Game/Senior_01_04.html',
+                    title: '게임 4 - 종합 훈련',
+                    description: '모든 능력을 종합적으로 훈련하는 마지막 단계입니다.'
+                }
+            ]
+        };
+
+        function updateGameInfo() {
+            const current = gameState.games[gameState.currentGameIndex];
+            
+            // 게임 정보 업데이트
+            document.getElementById('currentGameTitle').textContent = current.title;
+            document.getElementById('gameDescription').innerHTML = current.description + 
+                '<br>게임 완료 후 자동으로 다음 단계로 진행됩니다.';
+            document.getElementById('gameUrlDisplay').textContent = current.url;
+            
+            // 진행률 업데이트
+            const progress = ((gameState.currentGameIndex + 1) / gameState.totalGames) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // 진행 상태 텍스트 업데이트
+            if (gameState.currentGameIndex < gameState.totalGames) {
+                document.getElementById('progressText').textContent = 
+                    `게임 ${gameState.currentGameIndex + 1}/${gameState.totalGames} 진행중`;
+            }
+        }
+
+        function launchCurrentGame() {
+            const current = gameState.games[gameState.currentGameIndex];
+            const launchBtn = document.getElementById('launchBtn');
+            
+            // 게임 창 열기
+            gameState.gameWindow = window.open(
+                current.url, 
+                `game_${gameState.currentGameIndex}`, 
+                'width=800,height=600,scrollbars=yes,resizable=yes'
+            );
+            
+            // 팝업 차단 확인
+            if (!gameState.gameWindow || gameState.gameWindow.closed || typeof gameState.gameWindow.closed == 'undefined') {
+                alert(`팝업이 차단되었습니다!\n\n브라우저 설정에서 팝업을 허용하거나,\n아래 주소를 새 탭에서 직접 열어주세요:\n\n${current.url}`);
+                return;
+            }
+            
+            // 버튼 상태 변경
+            launchBtn.textContent = '✅ 게임 완료';
+            launchBtn.onclick = markGameCompleted;
+            launchBtn.classList.add('completed');
+            
+            // 상태 텍스트 업데이트
+            document.getElementById('statusText').innerHTML = 
+                '🎮 게임이 새 창에서 실행 중입니다.<br>' +
+                '게임을 완료한 후 아래 버튼을 클릭해주세요.<br>' +
+                '<strong>자동으로 다음 게임으로 진행됩니다!</strong>';
+            
+            // 게임 창에 포커스
+            gameState.gameWindow.focus();
+        }
+
+        function markGameCompleted() {
+            const launchBtn = document.getElementById('launchBtn');
+            
+            // 게임 창 닫기 (열려있다면)
+            if (gameState.gameWindow && !gameState.gameWindow.closed) {
+                gameState.gameWindow.close();
+            }
+            
+            // 완료 표시
+            launchBtn.textContent = '🎉 완료!';
+            launchBtn.style.background = 'linear-gradient(135deg, #4CAF50, #66BB6A)';
+            launchBtn.onclick = null;
+            
+            // 다음 게임으로 자동 진행
+            setTimeout(() => {
+                proceedToNextGame();
+            }, 1500);
+        }
+
+        function proceedToNextGame() {
+            gameState.currentGameIndex++;
+            
+            if (gameState.currentGameIndex >= gameState.totalGames) {
+                // 모든 게임 완료
+                showCompletionScreen();
+                return;
+            }
+            
+            // 자동 진행 표시
+            showAutoProgressIndicator();
+        }
+
+        function showAutoProgressIndicator() {
+            const indicator = document.getElementById('autoProgressIndicator');
+            const countdown = document.getElementById('countdown');
+            
+            indicator.classList.remove('hidden');
+            
+            let seconds = 3;
+            countdown.textContent = `${seconds}초 후 진행`;
+            
+            const countdownInterval = setInterval(() => {
+                seconds--;
+                countdown.textContent = `${seconds}초 후 진행`;
+                
+                if (seconds <= 0) {
+                    clearInterval(countdownInterval);
+                    indicator.classList.add('hidden');
+                    loadNextGame();
+                }
+            }, 1000);
+        }
+
+        function loadNextGame() {
+            // 버튼 초기화
+            const launchBtn = document.getElementById('launchBtn');
+            launchBtn.textContent = '🎮 게임 시작하기';
+            launchBtn.onclick = launchCurrentGame;
+            launchBtn.classList.remove('completed');
+            launchBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+            
+            // 게임 정보 업데이트
+            updateGameInfo();
+            
+            // 상태 텍스트 초기화
+            document.getElementById('statusText').innerHTML = 
+                '게임을 시작하면 새 창에서 열립니다.<br>' +
+                '게임 완료 후 이 창으로 돌아와서 "게임 완료" 버튼을 클릭하세요.<br>' +
+                '자동으로 다음 게임으로 진행됩니다.';
+        }
+
+        function showCompletionScreen() {
+            document.getElementById('gameContainer').classList.add('hidden');
+            document.getElementById('completionSection').classList.remove('hidden');
+            
+            // 진행률 100% 설정
+            document.getElementById('progressFill').style.width = '100%';
+            document.getElementById('progressText').textContent = '모든 게임 완료! 🎉';
+        }
+
+        function restartAllGames() {
+            gameState.currentGameIndex = 0;
+            
+            // 화면 복원
+            document.getElementById('completionSection').classList.add('hidden');
+            document.getElementById('gameContainer').classList.remove('hidden');
+            
+            // 게임 정보 업데이트
+            updateGameInfo();
+            
+            // 버튼 초기화
+            const launchBtn = document.getElementById('launchBtn');
+            launchBtn.textContent = '🎮 게임 시작하기';
+            launchBtn.onclick = launchCurrentGame;
+            launchBtn.classList.remove('completed');
+            launchBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+            
+            // 상태 텍스트 초기화
+            document.getElementById('statusText').innerHTML = 
+                '게임을 시작하면 새 창에서 열립니다.<br>' +
+                '게임 완료 후 이 창으로 돌아와서 "게임 완료" 버튼을 클릭하세요.<br>' +
+                '자동으로 다음 게임으로 진행됩니다.';
+        }
+
+        // 페이지 로드 시 초기화
+        window.onload = function() {
+            updateGameInfo();
+        };
+
+        // 페이지 언로드 시 열린 게임 창 닫기
+        window.onbeforeunload = function() {
+            if (gameState.gameWindow && !gameState.gameWindow.closed) {
+                gameState.gameWindow.close();
+            }
+        };
+    </script>
+</body>
+</html>
