@@ -169,6 +169,25 @@
             box-shadow: 0 15px 35px rgba(0, 184, 148, 0.4);
         }
 
+        .next-game-btn {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px 45px;
+            border: none;
+            border-radius: 35px;
+            font-size: 1.4em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(116, 185, 255, 0.3);
+            margin: 10px;
+        }
+
+        .next-game-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(116, 185, 255, 0.4);
+        }
+
         .result-message {
             font-size: 2em;
             font-weight: bold;
@@ -290,6 +309,16 @@
             color: #636e72;
         }
 
+        .next-game-info {
+            background: linear-gradient(45deg, #e8f4fd, #fff5f8);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #74b9ff;
+            font-size: 1.1em;
+            color: #2d3436;
+        }
+
         @media (max-width: 600px) {
             .game-container {
                 padding: 25px;
@@ -364,7 +393,7 @@
         function renderGame() {
             const content = `
                 <div class="difficulty-badge">✖️ 곱셈 레벨</div>
-                <div class="game-subtitle">일자리 숫자 곱셈 게임 (5문제)</div>
+                <div class="game-subtitle">2자리×1자리 곱셈 게임 (5문제)</div>
                 <div class="timer" id="timer">60초</div>
                 <div class="problems-grid">
                     ${problems.map((problem, index) => `
@@ -541,8 +570,61 @@
                     </div>
                 </div>
                 
-                <button class="submit-btn" onclick="showNextGame()">➡️ 1-4 게임으로</button>
+                <button class="next-game-btn" onclick="goToNextGame()">🚀 새 창에서 1-4 게임 열기</button>
                 <button class="start-btn" onclick="restartGame()" style="margin-left: 10px;">🔄 다시 도전</button>
+            `;
+            
+            document.getElementById('game-content').innerHTML = content;
+        }
+
+        function goToNextGame() {
+            // 새 창으로 다음 게임 열기
+            const nextGameWindow = window.open(
+                'https://asitis7.github.io/Senior_Game/Senior_01_04.html', 
+                '_blank', 
+                'width=800,height=600,scrollbars=yes,resizable=yes,toolbar=no,location=no'
+            );
+            
+            // 팝업 차단 확인
+            if (!nextGameWindow || nextGameWindow.closed || typeof nextGameWindow.closed == 'undefined') {
+                // 팝업이 차단된 경우 사용자에게 안내
+                alert('팝업이 차단되었습니다!\n\n아래 주소를 새 탭에서 열어주세요:\nhttps://asitis7.github.io/Senior_Game/Senior_01_04.html\n\n또는 브라우저 설정에서 팝업을 허용해주세요.');
+                
+                // 수동으로 URL 복사할 수 있도록 안내
+                showManualNextGame();
+            } else {
+                // 새 창에 포커스
+                nextGameWindow.focus();
+            }
+        }
+
+        function showManualNextGame() {
+            const content = `
+                <div class="difficulty-badge">🎯 다음 게임으로 이동</div>
+                <div class="game-subtitle">For Senior 1-4 게임 열기</div>
+                <div class="next-game-info">
+                    <strong>팝업이 차단되었습니다!</strong><br><br>
+                    아래 방법 중 하나를 선택해주세요:<br><br>
+                    
+                    <strong>방법 1:</strong> 아래 링크를 클릭하세요<br>
+                    <a href="https://asitis7.github.io/Senior_Game/Senior_01_04.html" 
+                       target="_blank" 
+                       style="color: #74b9ff; font-weight: bold; text-decoration: underline;">
+                       🔗 For Senior 1-4 게임 열기
+                    </a><br><br>
+                    
+                    <strong>방법 2:</strong> 아래 주소를 복사해서 새 탭에서 열어주세요<br>
+                    <div style="background: #f1f2f6; padding: 10px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 0.9em; word-break: break-all;">
+                        https://asitis7.github.io/Senior_Game/Senior_01_04.html
+                    </div>
+                    
+                    <strong>다음 게임 정보:</strong><br>
+                    • For Senior 1-4: 나눗셈 게임 (2자리 ÷ 1자리)<br>
+                    • 나머지가 없는 정수 나눗셈 문제들<br>
+                    • 마지막 단계 게임
+                </div>
+                <button class="next-game-btn" onclick="goToNextGame()">🔄 다시 시도</button>
+                <button class="start-btn" onclick="restartGame()">🔄 1-3 다시 하기</button>
             `;
             
             document.getElementById('game-content').innerHTML = content;
@@ -551,43 +633,27 @@
         function showNextGame() {
             const content = `
                 <div class="difficulty-badge">🎉 1-3 완료!</div>
-                <div class="game-subtitle">첫번째 단계 4번게임으로 이동</div>
-                <div class="start-description">
+                <div class="game-subtitle">다음 단계로 이동</div>
+                <div class="next-game-info">
                     <strong>축하합니다!</strong><br><br>
                     For Senior 1-3 곱셈 게임을 성공적으로 완료하셨습니다.<br>
-                    구구단을 활용한 곱셈 계산을 잘 해내셨네요!<br><br>
-                    <strong>다음 게임:</strong> 첫번째 단계 4번게임<br>
+                    2자리×1자리 곱셈 계산을 잘 해내셨네요!<br><br>
+                    <strong>다음 게임:</strong> For Senior 1-4<br>
                     <strong>게임 내용:</strong> 나눗셈 문제 (2자리 ÷ 1자리)<br>
-                    <strong>난이도:</strong> 정수 나눗셈으로 도전!<br><br>
+                    <strong>안내:</strong> 새 창에서 게임이 열립니다<br><br>
                     나눗셈은 곱셈의 반대 연산이에요.<br>
                     나머지가 없이 딱 나누어 떨어지는 문제들만 나옵니다!
                 </div>
-                <button class="start-btn" onclick="startNextStageGame()">🎯 1단계 4번게임 시작</button>
-                <button class="submit-btn" onclick="restartGame()" style="margin-left: 10px;">🔄 1-3 다시 하기</button>
+                <button class="next-game-btn" onclick="goToNextGame()">🚀 새 창에서 1-4 게임 열기</button>
+                <button class="start-btn" onclick="restartGame()">🔄 1-3 다시 하기</button>
             `;
             
             document.getElementById('game-content').innerHTML = content;
         }
 
         function startNextStageGame() {
-            const content = `
-                <div class="difficulty-badge">🚀 준비 중</div>
-                <div class="game-subtitle">첫번째 단계 4번게임</div>
-                <div class="start-description">
-                    <strong>🎯 나눗셈 게임 (2자리 ÷ 1자리)</strong><br><br>
-                    첫번째 단계 4번게임이 곧 시작됩니다!<br>
-                    정수 나눗셈 문제들이 준비되어 있어요.<br><br>
-                    <strong>⚡ 특징:</strong><br>
-                    • 2자리 숫자를 1자리 숫자로 나누기<br>
-                    • 나머지 없이 딱 나누어 떨어지는 문제<br>
-                    • 나누는 수는 1이 아닌 2~9<br>
-                    • 총 5문제, 60초 제한<br><br>
-                    <em>현재 개발 중입니다...</em>
-                </div>
-                <button class="start-btn" onclick="restartGame()">🔄 1-3으로 돌아가기</button>
-            `;
-            
-            document.getElementById('game-content').innerHTML = content;
+            // 직접 새 창으로 게임 열기
+            goToNextGame();
         }
 
         function restartGame() {
@@ -599,19 +665,19 @@
                 <div class="start-screen">
                     <div class="difficulty-badge">✖️ 곱셈 레벨</div>
                     <div class="start-description">
-                        <strong>🎯 일자리 숫자 곱셈 게임</strong><br><br>
-                        두 개의 일자리 숫자를 곱하는 계산 게임입니다.<br>
-                        구구단을 활용해서 5개의 문제를 풀어보세요!<br><br>
+                        <strong>🎯 2자리×1자리 곱셈 게임</strong><br><br>
+                        2자리 숫자와 1자리 숫자를 곱하는 계산 게임입니다.<br>
+                        한 화면에 5개의 문제를 풀어보세요!<br><br>
                         <strong>⏰ 목표:</strong> 60초 안에 정확하게 계산하기<br>
                         <strong>📝 평가:</strong> 정답 개수와 시간으로 평가됩니다<br>
-                        <strong>🔢 범위:</strong> 2~9 (숫자 1은 제외)<br>
-                        <strong>💡 팁:</strong> 구구단을 떠올리며 계산해보세요
+                        <strong>🔢 범위:</strong> 2자리 수 (10~99) × 1자리 수 (1~9)<br>
+                        <strong>💡 팁:</strong> 자리수별로 나누어 계산해보세요
                     </div>
                     
                     <div class="multiplication-table-hint">
-                        <strong>💭 구구단 힌트:</strong><br>
-                        2×3=6, 4×5=20, 7×8=56 처럼<br>
-                        외운 구구단을 활용하면 쉽게 풀 수 있어요!
+                        <strong>💭 계산 힌트:</strong><br>
+                        23×4 = (20×4) + (3×4) = 80 + 12 = 92<br>
+                        이렇게 자리수를 나누어 계산하면 쉬워요!
                     </div>
                     
                     <button class="start-btn" onclick="startGame()">🚀 게임 시작</button>
