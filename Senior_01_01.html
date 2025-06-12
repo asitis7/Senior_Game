@@ -160,6 +160,25 @@
             box-shadow: 0 15px 35px rgba(0, 184, 148, 0.4);
         }
 
+        .next-game-btn {
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+            color: white;
+            padding: 20px 45px;
+            border: none;
+            border-radius: 35px;
+            font-size: 1.4em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
+            margin: 10px;
+        }
+
+        .next-game-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(108, 92, 231, 0.4);
+        }
+
         .result-message {
             font-size: 2em;
             font-weight: bold;
@@ -257,6 +276,16 @@
             padding: 25px;
             border-radius: 15px;
             border-left: 5px solid #74b9ff;
+        }
+
+        .next-game-info {
+            background: linear-gradient(45deg, #e8f4fd, #f8f9ff);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #6c5ce7;
+            font-size: 1.1em;
+            color: #2d3436;
         }
 
         @media (max-width: 600px) {
@@ -491,8 +520,58 @@
                     </div>
                 </div>
                 
-                <button class="submit-btn" onclick="showNextGame()">➡️ 다음 게임으로</button>
+                <button class="next-game-btn" onclick="goToNextGame()">🚀 새 창에서 다음 게임 열기</button>
                 <button class="start-btn" onclick="restartGame()" style="margin-left: 10px;">🔄 다시 도전</button>
+            `;
+            
+            document.getElementById('game-content').innerHTML = content;
+        }
+
+        function goToNextGame() {
+            // 새 창으로 다음 게임 열기
+            const nextGameWindow = window.open(
+                'https://asitis7.github.io/Senior_Game/Senior_01_02.html', 
+                '_blank', 
+                'width=800,height=600,scrollbars=yes,resizable=yes,toolbar=no,location=no'
+            );
+            
+            // 팝업 차단 확인
+            if (!nextGameWindow || nextGameWindow.closed || typeof nextGameWindow.closed == 'undefined') {
+                // 팝업이 차단된 경우 사용자에게 안내
+                alert('팝업이 차단되었습니다!\n\n아래 주소를 새 탭에서 열어주세요:\nhttps://asitis7.github.io/Senior_Game/Senior_01_02.html\n\n또는 브라우저 설정에서 팝업을 허용해주세요.');
+                
+                // 수동으로 URL 복사할 수 있도록 안내
+                showManualNextGame();
+            } else {
+                // 새 창에 포커스
+                nextGameWindow.focus();
+                
+                // 현재 창은 닫기 (선택사항)
+                // window.close();
+            }
+        }
+
+        function showManualNextGame() {
+            const content = `
+                <div class="game-subtitle">🎯 다음 게임으로 이동</div>
+                <div class="next-game-info">
+                    <strong>팝업이 차단되었습니다!</strong><br><br>
+                    아래 방법 중 하나를 선택해주세요:<br><br>
+                    
+                    <strong>방법 1:</strong> 아래 링크를 클릭하세요<br>
+                    <a href="https://asitis7.github.io/Senior_Game/Senior_01_02.html" 
+                       target="_blank" 
+                       style="color: #6c5ce7; font-weight: bold; text-decoration: underline;">
+                       🔗 For Senior 1-2 게임 열기
+                    </a><br><br>
+                    
+                    <strong>방법 2:</strong> 아래 주소를 복사해서 새 탭에서 열어주세요<br>
+                    <div style="background: #f1f2f6; padding: 10px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 0.9em; word-break: break-all;">
+                        https://asitis7.github.io/Senior_Game/Senior_01_02.html
+                    </div>
+                </div>
+                <button class="next-game-btn" onclick="goToNextGame()">🔄 다시 시도</button>
+                <button class="start-btn" onclick="restartGame()">🔄 1-1 다시 하기</button>
             `;
             
             document.getElementById('game-content').innerHTML = content;
@@ -501,13 +580,14 @@
         function showNextGame() {
             const content = `
                 <div class="game-subtitle">🎉 1-1 게임 완료!</div>
-                <div class="start-description">
+                <div class="next-game-info">
                     <strong>축하합니다!</strong><br><br>
                     For Senior 1-1 게임을 성공적으로 완료하셨습니다.<br>
-                    다음 단계의 게임들이 준비되어 있습니다.<br><br>
-                    <strong>다음 게임:</strong> For Senior 1-2 (준비 중)<br>
-                    <strong>난이도:</strong> 조금 더 도전적인 계산 문제들
+                    다음 게임이 새 창에서 열립니다.<br><br>
+                    <strong>다음 게임:</strong> For Senior 1-2<br>
+                    <strong>안내:</strong> 팝업 차단 시 수동으로 링크를 클릭해주세요
                 </div>
+                <button class="next-game-btn" onclick="goToNextGame()">🚀 새 창에서 다음 게임 열기</button>
                 <button class="start-btn" onclick="restartGame()">🔄 1-1 다시 하기</button>
             `;
             
