@@ -169,6 +169,25 @@
             box-shadow: 0 15px 35px rgba(0, 184, 148, 0.4);
         }
 
+        .next-stage-btn {
+            background: linear-gradient(45deg, #fd79a8, #e84393);
+            color: white;
+            padding: 20px 45px;
+            border: none;
+            border-radius: 35px;
+            font-size: 1.4em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(253, 121, 168, 0.3);
+            margin: 10px;
+        }
+
+        .next-stage-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(253, 121, 168, 0.4);
+        }
+
         .result-message {
             font-size: 2em;
             font-weight: bold;
@@ -305,6 +324,16 @@
             color: #00b894;
             margin: 20px 0;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .next-stage-info {
+            background: linear-gradient(45deg, #ffe8f0, #fff5f8);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #fd79a8;
+            font-size: 1.1em;
+            color: #2d3436;
         }
 
         @media (max-width: 600px) {
@@ -571,7 +600,7 @@
                     </div>
                 </div>
                 
-                <button class="submit-btn" onclick="showStageComplete()">🏁 첫번째 단계 완료!</button>
+                <button class="submit-btn" onclick="showStageComplete()">🏁 첫번째 단계 완료! 계속 하려면 클릭!</button>
                 <button class="start-btn" onclick="restartGame()" style="margin-left: 10px;">🔄 다시 도전</button>
             `;
             
@@ -610,32 +639,69 @@
                     <em>수고하셨습니다! 꾸준한 연습이 두뇌 건강의 비결입니다.</em>
                 </div>
                 
-                <button class="start-btn" onclick="startNextStage()">🚀 두번째 단계로</button>
-                <button class="submit-btn" onclick="restartGame()" style="margin-left: 10px;">🔄 1-4 다시 하기</button>
+                <button class="next-stage-btn" onclick="goToNextStage()">🚀 새 창에서 두번째 단계 열기</button>
+                <button class="start-btn" onclick="restartGame()" style="margin-left: 10px;">🔄 1-4 다시 하기</button>
+            `;
+            
+            document.getElementById('game-content').innerHTML = content;
+        }
+
+        function goToNextStage() {
+            // 새 창으로 다음 단계 게임 열기
+            const nextStageWindow = window.open(
+                'https://asitis7.github.io/Senior_Game/Senior_02_01.html', 
+                '_blank', 
+                'width=800,height=600,scrollbars=yes,resizable=yes,toolbar=no,location=no'
+            );
+            
+            // 팝업 차단 확인
+            if (!nextStageWindow || nextStageWindow.closed || typeof nextStageWindow.closed == 'undefined') {
+                // 팝업이 차단된 경우 사용자에게 안내
+                alert('팝업이 차단되었습니다!\n\n아래 주소를 새 탭에서 열어주세요:\nhttps://asitis7.github.io/Senior_Game/Senior_02_01.html\n\n또는 브라우저 설정에서 팝업을 허용해주세요.');
+                
+                // 수동으로 URL 복사할 수 있도록 안내
+                showManualNextStage();
+            } else {
+                // 새 창에 포커스
+                nextStageWindow.focus();
+            }
+        }
+
+        function showManualNextStage() {
+            const content = `
+                <div class="difficulty-badge">🎯 다음 단계로 이동</div>
+                <div class="game-subtitle">For Senior 2-1 게임 열기</div>
+                <div class="next-stage-info">
+                    <strong>팝업이 차단되었습니다!</strong><br><br>
+                    아래 방법 중 하나를 선택해주세요:<br><br>
+                    
+                    <strong>방법 1:</strong> 아래 링크를 클릭하세요<br>
+                    <a href="https://asitis7.github.io/Senior_Game/Senior_02_01.html" 
+                       target="_blank" 
+                       style="color: #fd79a8; font-weight: bold; text-decoration: underline;">
+                       🔗 For Senior 2-1 게임 열기
+                    </a><br><br>
+                    
+                    <strong>방법 2:</strong> 아래 주소를 복사해서 새 탭에서 열어주세요<br>
+                    <div style="background: #f1f2f6; padding: 10px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 0.9em; word-break: break-all;">
+                        https://asitis7.github.io/Senior_Game/Senior_02_01.html
+                    </div>
+                    
+                    <strong>다음 단계 정보:</strong><br>
+                    • For Senior 2-1: 두번째 단계 첫 번째 게임<br>
+                    • 새로운 형태의 두뇌 훈련 게임들<br>
+                    • 더욱 다양하고 흥미진진한 도전!
+                </div>
+                <button class="next-stage-btn" onclick="goToNextStage()">🔄 다시 시도</button>
+                <button class="start-btn" onclick="restartGame()">🔄 1-4 다시 하기</button>
             `;
             
             document.getElementById('game-content').innerHTML = content;
         }
 
         function startNextStage() {
-            const content = `
-                <div class="difficulty-badge">🚀 준비 중</div>
-                <div class="game-subtitle">두번째 단계</div>
-                <div class="start-description">
-                    <strong>🎯 두번째 단계 게임들</strong><br><br>
-                    두번째 단계가 곧 시작됩니다!<br>
-                    새로운 형태의 두뇌 훈련 게임들이 준비되어 있어요.<br><br>
-                    <strong>⚡ 예정된 게임들:</strong><br>
-                    • 숫자 순서 게임 (5×5 격자)<br>
-                    • 기억력 향상 게임<br>
-                    • 패턴 인식 게임<br>
-                    • 그리고 더 많은 재미있는 게임들!<br><br>
-                    <em>현재 개발 중입니다...</em>
-                </div>
-                <button class="start-btn" onclick="restartGame()">🔄 1-4로 돌아가기</button>
-            `;
-            
-            document.getElementById('game-content').innerHTML = content;
+            // 직접 새 창으로 다음 단계 열기
+            goToNextStage();
         }
 
         function restartGame() {
@@ -670,3 +736,4 @@
     </script>
 </body>
 </html>
+
