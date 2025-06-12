@@ -1,10 +1,9 @@
-<!For Senior 1-1>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Senior 1-1</title>
+    <title>치매 예방 365 - 첫번째 게임</title>
     <style>
         * {
             margin: 0;
@@ -288,6 +287,41 @@
             color: #2d3436;
         }
 
+        .completion-celebration {
+            background: linear-gradient(45deg, #fd79a8, #fdcb6e);
+            color: white;
+            padding: 40px;
+            border-radius: 25px;
+            margin: 30px 0 20px 0;
+            box-shadow: 0 15px 40px rgba(253, 121, 168, 0.4);
+            text-align: center;
+        }
+
+        .celebration-emoji {
+            font-size: 4em;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+
+        .completion-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .completion-message {
+            font-size: 1.3em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+
         @media (max-width: 600px) {
             .game-container {
                 padding: 25px;
@@ -304,12 +338,23 @@
             .problem-text {
                 font-size: 1.4em;
             }
+
+            .completion-title {
+                font-size: 1.8em;
+            }
+
+            .completion-message {
+                font-size: 1.1em;
+            }
         }
     </style>
 </head>
 <body>
     <div class="game-container">
-        <h1 class="game-title">📚 For Senior 1-1</h1>
+        <h1 class="game-title">🧠 치매 예방 365</h1>
+        <div style="color: #74b9ff; font-size: 1.3em; font-weight: bold; margin-bottom: 20px;">
+            첫번째 게임
+        </div>
         
         <div id="game-content">
             <div class="start-screen">
@@ -485,7 +530,19 @@
                 }
             }
             
+            // 페이지 맨 위로 스크롤
+            window.scrollTo(0, 0);
+            
             const content = `
+                <div class="completion-celebration">
+                    <div class="celebration-emoji">🎉🎊🏆</div>
+                    <div class="completion-title">첫번째 게임 끝!</div>
+                    <div class="completion-message">
+                        치매 예방 365의 첫 번째 도전을 완료하셨습니다!<br>
+                        두뇌 건강의 첫 걸음을 성공적으로 내딛으셨어요! 🌟
+                    </div>
+                </div>
+
                 <div class="game-subtitle">게임 결과</div>
                 <div class="result-message ${resultClass}">${message}</div>
                 
@@ -520,79 +577,30 @@
                     </div>
                 </div>
                 
-                <button class="next-game-btn" onclick="goToNextGame()">🚀 새 창에서 다음 게임 열기</button>
-                <button class="start-btn" onclick="restartGame()" style="margin-left: 10px;">🔄 다시 도전</button>
-            `;
-            
-            document.getElementById('game-content').innerHTML = content;
-        }
-
-function goToNextGame() { 
-// 현재 창에서 직접 이동 - iframe 차단 없음
- window.location.href = 'https://asitis7.github.io/Senior_Game/Senior_01_02.html';
-            
-            // 팝업 차단 확인
-            if (!nextGameWindow || nextGameWindow.closed || typeof nextGameWindow.closed == 'undefined') {
-                // 팝업이 차단된 경우 사용자에게 안내
-                alert('팝업이 차단되었습니다!\n\n아래 주소를 새 탭에서 열어주세요:\nhttps://asitis7.github.io/Senior_Game/Senior_01_02.html\n\n또는 브라우저 설정에서 팝업을 허용해주세요.');
-                
-                // 수동으로 URL 복사할 수 있도록 안내
-                showManualNextGame();
-            } else {
-                // 새 창에 포커스
-                nextGameWindow.focus();
-                
-                // 현재 창은 닫기 (선택사항)
-                // window.close();
-            }
-        }
-
-        function showManualNextGame() {
-            const content = `
-                <div class="game-subtitle">🎯 다음 게임으로 이동</div>
                 <div class="next-game-info">
-                    <strong>팝업이 차단되었습니다!</strong><br><br>
-                    아래 방법 중 하나를 선택해주세요:<br><br>
-                    
-                    <strong>방법 1:</strong> 아래 링크를 클릭하세요<br>
-                    <a href="https://asitis7.github.io/Senior_Game/Senior_01_02.html" 
-                       target="_blank" 
-                       style="color: #6c5ce7; font-weight: bold; text-decoration: underline;">
-                       🔗 For Senior 1-2 게임 열기
-                    </a><br><br>
-                    
-                    <strong>방법 2:</strong> 아래 주소를 복사해서 새 탭에서 열어주세요<br>
-                    <div style="background: #f1f2f6; padding: 10px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 0.9em; word-break: break-all;">
-                        https://asitis7.github.io/Senior_Game/Senior_01_02.html
-                    </div>
+                    <strong>🎯 계속 두뇌 훈련하기</strong><br><br>
+                    첫 번째 게임을 마치셨네요! 꾸준한 두뇌 훈련이 건강한 인지 능력 유지의 핵심입니다.<br>
+                    다시 도전하거나 다음 단계로 진행해보세요!
                 </div>
-                <button class="next-game-btn" onclick="goToNextGame()">🔄 다시 시도</button>
-                <button class="start-btn" onclick="restartGame()">🔄 1-1 다시 하기</button>
+                
+                <button class="next-game-btn" onclick="goToNextGame()">🚀 다음 게임으로</button>
+                <button class="start-btn" onclick="restartGame()">🔄 다시 도전</button>
             `;
             
             document.getElementById('game-content').innerHTML = content;
         }
 
-        function showNextGame() {
-            const content = `
-                <div class="game-subtitle">🎉 1-1 게임 완료!</div>
-                <div class="next-game-info">
-                    <strong>축하합니다!</strong><br><br>
-                    For Senior 1-1 게임을 성공적으로 완료하셨습니다.<br>
-                    다음 게임이 새 창에서 열립니다.<br><br>
-                    <strong>다음 게임:</strong> For Senior 1-2<br>
-                    <strong>안내:</strong> 팝업 차단 시 수동으로 링크를 클릭해주세요
-                </div>
-                <button class="next-game-btn" onclick="goToNextGame()">🚀 새 창에서 다음 게임 열기</button>
-                <button class="start-btn" onclick="restartGame()">🔄 1-1 다시 하기</button>
-            `;
-            
-            document.getElementById('game-content').innerHTML = content;
+        function goToNextGame() { 
+            // 현재 창에서 직접 이동 - iframe 차단 없음
+            window.location.href = 'https://asitis7.github.io/Senior_Game/Senior_01_02.html';
         }
 
         function restartGame() {
             // 게임 초기화
             answers = [];
+            
+            // 페이지 맨 위로 스크롤
+            window.scrollTo(0, 0);
             
             // 시작 화면으로 복원
             document.getElementById('game-content').innerHTML = `
