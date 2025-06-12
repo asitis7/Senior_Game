@@ -527,13 +527,9 @@
             document.getElementById('game-content').innerHTML = content;
         }
 
-        function goToNextGame() {
-            // 새 창으로 다음 게임 열기
-            const nextGameWindow = window.open(
-                'https://asitis7.github.io/Senior_Game/Senior_01_02.html', 
-                '_blank', 
-                'width=800,height=600,scrollbars=yes,resizable=yes,toolbar=no,location=no'
-            );
+function goToNextGame() { 
+// 현재 창에서 직접 이동 - iframe 차단 없음
+ window.location.href = 'https://asitis7.github.io/Senior_Game/Senior_01_02.html';
             
             // 팝업 차단 확인
             if (!nextGameWindow || nextGameWindow.closed || typeof nextGameWindow.closed == 'undefined') {
