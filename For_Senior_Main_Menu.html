@@ -81,6 +81,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            flex: 1;
         }
         
         .game-container {
@@ -166,18 +167,6 @@
             font-size: 14px;
         }
         
-        .game-url-display {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 15px;
-            border-radius: 10px;
-            font-family: monospace;
-            font-size: 12px;
-            word-break: break-all;
-            margin: 15px 0;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            opacity: 0.7;
-        }
-        
         .completion-section {
             background: rgba(76, 175, 80, 0.9);
             color: white;
@@ -247,6 +236,34 @@
             display: none;
         }
         
+        .footer {
+            width: 100%;
+            max-width: 500px;
+            margin-top: auto;
+            padding: 30px 20px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            font-size: 12px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        .footer-section {
+            margin-bottom: 15px;
+        }
+        
+        .footer-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .footer-title {
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 8px;
+        }
+        
         @media (max-width: 480px) {
             .title {
                 font-size: 28px;
@@ -258,6 +275,11 @@
             
             .completion-section {
                 padding: 30px 20px;
+            }
+            
+            .footer {
+                font-size: 11px;
+                padding: 25px 15px 15px;
             }
         }
     </style>
@@ -279,29 +301,24 @@
             <div class="current-game-title" id="currentGameTitle">게임 1 - 기초 두뇌 훈련</div>
             <div class="game-description" id="gameDescription">
                 첫 번째 두뇌 훈련 게임을 시작합니다.<br>
-                게임 완료 후 자동으로 다음 단계로 진행됩니다.
+                게임 완료 후 다음 단계로 진행하세요.
             </div>
             
             <button class="game-launch-btn" id="launchBtn" onclick="launchCurrentGame()">
                 🎮 게임 시작하기
             </button>
             
-            <div class="game-url-display" id="gameUrlDisplay">
-                https://asitis7.github.io/Senior_Game/Senior_01_01.html
-            </div>
-            
             <div class="game-status">
-                <div class="status-title">📋 자동 진행 시스템</div>
+                <div class="status-title">📋 게임 정보</div>
                 <div class="status-text" id="statusText">
                     게임을 시작하면 새 창에서 열립니다.<br>
-                    게임 완료 후 이 창으로 돌아와서 "게임 완료" 버튼을 클릭하세요.<br>
-                    자동으로 다음 게임으로 진행됩니다.
+                    게임 완료 후 이 창으로 돌아와서 "게임 완료" 버튼을 클릭하세요.
                 </div>
             </div>
             
             <div class="auto-progress-indicator hidden" id="autoProgressIndicator">
-                <div class="indicator-title">🔄 자동 진행 중...</div>
-                <div>다음 게임으로 자동 이동합니다</div>
+                <div class="indicator-title">🔄 다음 게임 준비 중...</div>
+                <div>잠시 후 다음 게임으로 이동합니다</div>
                 <div class="countdown" id="countdown">3초 후 진행</div>
             </div>
         </div>
@@ -316,6 +333,33 @@
             <button class="restart-btn" onclick="restartAllGames()">
                 🔄 처음부터 다시 시작
             </button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="footer-section">
+            <div class="footer-title">📄 저작권 안내</div>
+            <div>
+                본 웹사이트의 모든 콘텐츠는 저작권법에 의해 보호받습니다.<br>
+                무단 복제, 배포, 전송, 전시, 공연, 방송 또는 기타 방법으로<br>
+                저작권자의 동의 없이 사용할 수 없습니다.
+            </div>
+        </div>
+        
+        <div class="footer-section">
+            <div class="footer-title">👨‍💻 개발자 정보</div>
+            <div>
+                Developed by HJ Yoo<br>
+                Email: asitis7@hotmail.com
+            </div>
+        </div>
+        
+        <div class="footer-section">
+            <div class="footer-title">⚠️ 중요 안내</div>
+            <div>
+                본 게임은 파일럿 프로그램으로<br>
+                언제든 변경 및 삭제될 수 있습니다.
+            </div>
         </div>
     </div>
 
@@ -354,8 +398,7 @@
             // 게임 정보 업데이트
             document.getElementById('currentGameTitle').textContent = current.title;
             document.getElementById('gameDescription').innerHTML = current.description + 
-                '<br>게임 완료 후 자동으로 다음 단계로 진행됩니다.';
-            document.getElementById('gameUrlDisplay').textContent = current.url;
+                '<br>게임 완료 후 다음 단계로 진행하세요.';
             
             // 진행률 업데이트
             const progress = ((gameState.currentGameIndex + 1) / gameState.totalGames) * 100;
@@ -393,8 +436,7 @@
             // 상태 텍스트 업데이트
             document.getElementById('statusText').innerHTML = 
                 '🎮 게임이 새 창에서 실행 중입니다.<br>' +
-                '게임을 완료한 후 아래 버튼을 클릭해주세요.<br>' +
-                '<strong>자동으로 다음 게임으로 진행됩니다!</strong>';
+                '게임을 완료한 후 아래 버튼을 클릭해주세요.';
             
             // 게임 창에 포커스
             gameState.gameWindow.focus();
@@ -413,7 +455,7 @@
             launchBtn.style.background = 'linear-gradient(135deg, #4CAF50, #66BB6A)';
             launchBtn.onclick = null;
             
-            // 다음 게임으로 자동 진행
+            // 다음 게임으로 진행
             setTimeout(() => {
                 proceedToNextGame();
             }, 1500);
@@ -428,7 +470,7 @@
                 return;
             }
             
-            // 자동 진행 표시
+            // 다음 게임 진행 표시
             showAutoProgressIndicator();
         }
 
@@ -467,8 +509,7 @@
             // 상태 텍스트 초기화
             document.getElementById('statusText').innerHTML = 
                 '게임을 시작하면 새 창에서 열립니다.<br>' +
-                '게임 완료 후 이 창으로 돌아와서 "게임 완료" 버튼을 클릭하세요.<br>' +
-                '자동으로 다음 게임으로 진행됩니다.';
+                '게임 완료 후 이 창으로 돌아와서 "게임 완료" 버튼을 클릭하세요.';
         }
 
         function showCompletionScreen() {
@@ -500,8 +541,7 @@
             // 상태 텍스트 초기화
             document.getElementById('statusText').innerHTML = 
                 '게임을 시작하면 새 창에서 열립니다.<br>' +
-                '게임 완료 후 이 창으로 돌아와서 "게임 완료" 버튼을 클릭하세요.<br>' +
-                '자동으로 다음 게임으로 진행됩니다.';
+                '게임 완료 후 이 창으로 돌아와서 "게임 완료" 버튼을 클릭하세요.';
         }
 
         // 페이지 로드 시 초기화
