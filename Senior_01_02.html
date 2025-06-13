@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>치매 예방 365 - 2단계 두번째 게임</title>
+    <title>치매 예방 365 - 1단계 두번째 게임</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #00cec9 0%, #55efc4 100%);
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -32,7 +32,7 @@
         }
 
         .game-title {
-            color: #00cec9;
+            color: #6c5ce7;
             font-size: 2.8em;
             font-weight: bold;
             margin-bottom: 10px;
@@ -40,21 +40,21 @@
         }
 
         .game-subtitle {
-            color: #2d3436;
-            font-size: 1.2em;
-            margin-bottom: 30px;
-            font-weight: 500;
+            color: #e84393;
+            font-size: 1.4em;
+            margin-bottom: 25px;
+            font-weight: 600;
         }
 
         .timer {
             font-size: 2.2em;
-            color: #e17055;
+            color: #e84393;
             font-weight: bold;
             margin-bottom: 25px;
             padding: 15px;
-            background: linear-gradient(45deg, #f0fdfc, #ffeaa7);
+            background: linear-gradient(45deg, #fff5f8, #ffeaa7);
             border-radius: 12px;
-            border: 2px solid #00cec9;
+            border: 2px solid #fd79a8;
         }
 
         .problems-grid {
@@ -65,10 +65,10 @@
         }
 
         .problem-row {
-            background: linear-gradient(45deg, #f0fdfc, #ffeaa7);
+            background: linear-gradient(45deg, #f8f9ff, #e8f4fd);
             padding: 25px;
             border-radius: 15px;
-            border: 2px solid #00cec9;
+            border: 2px solid #a8dadc;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
@@ -76,7 +76,7 @@
         .problem-row:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            border-color: #55efc4;
+            border-color: #6c5ce7;
         }
 
         .problem-text {
@@ -86,26 +86,9 @@
             font-weight: bold;
         }
 
-        .equation-display {
-            font-size: 1.4em;
-            color: #00cec9;
-            font-weight: bold;
-            margin: 15px 0;
-            line-height: 1.5;
-        }
-
-        .missing-number {
-            color: #e17055;
-            font-size: 1.2em;
-            background: #fff5f3;
-            padding: 5px 10px;
-            border-radius: 8px;
-            border: 2px dashed #e17055;
-        }
-
         .answer-input {
             width: 100%;
-            max-width: 200px;
+            max-width: 250px;
             padding: 16px;
             border: 3px solid #ddd;
             border-radius: 12px;
@@ -117,8 +100,8 @@
 
         .answer-input:focus {
             outline: none;
-            border-color: #00cec9;
-            box-shadow: 0 0 0 3px rgba(0, 206, 201, 0.2);
+            border-color: #6c5ce7;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
             transform: scale(1.02);
         }
 
@@ -128,12 +111,12 @@
         }
 
         .answer-input.incorrect {
-            border-color: #e17055;
-            background-color: #fff5f3;
+            border-color: #e84393;
+            background-color: #ffe8f0;
         }
 
         .submit-btn {
-            background: linear-gradient(45deg, #00cec9, #55efc4);
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
             color: white;
             padding: 20px 45px;
             border: none;
@@ -142,13 +125,13 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0, 206, 201, 0.3);
+            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
             margin: 20px;
         }
 
         .submit-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(0, 206, 201, 0.4);
+            box-shadow: 0 12px 30px rgba(108, 92, 231, 0.4);
         }
 
         .submit-btn:disabled {
@@ -177,12 +160,12 @@
         }
 
         .next-game-btn {
-            background: linear-gradient(45deg, #fd79a8, #e84393);
+            background: linear-gradient(45deg, #fd79a8, #fdcb6e);
             color: white;
-            padding: 20px 40px;
+            padding: 20px 45px;
             border: none;
             border-radius: 35px;
-            font-size: 1.3em;
+            font-size: 1.4em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -210,15 +193,15 @@
         }
 
         .result-good {
-            background: linear-gradient(45deg, #00cec9, #55efc4);
+            background: linear-gradient(45deg, #6c5ce7, #a29bfe);
         }
 
         .result-average {
-            background: linear-gradient(45deg, #fdcb6e, #e17055);
+            background: linear-gradient(45deg, #fdcb6e, #e84393);
         }
 
         .result-poor {
-            background: linear-gradient(45deg, #e17055, #d63031);
+            background: linear-gradient(45deg, #e84393, #d63031);
         }
 
         .result-summary {
@@ -242,7 +225,7 @@
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border-left: 5px solid #00cec9;
+            border-left: 5px solid #6c5ce7;
         }
 
         .stat-label {
@@ -255,7 +238,7 @@
         .stat-value {
             font-size: 1.8em;
             font-weight: bold;
-            color: #00cec9;
+            color: #6c5ce7;
         }
 
         .answers-review {
@@ -279,8 +262,8 @@
         }
 
         .answer-item.incorrect {
-            border-left-color: #e17055;
-            background: #fff5f3;
+            border-left-color: #e84393;
+            background: #ffe8f0;
         }
 
         .start-description {
@@ -291,12 +274,12 @@
             background: #f1f2f6;
             padding: 25px;
             border-radius: 15px;
-            border-left: 5px solid #00cec9;
+            border-left: 5px solid #6c5ce7;
         }
 
         .difficulty-badge {
             display: inline-block;
-            background: linear-gradient(45deg, #55efc4, #00cec9);
+            background: linear-gradient(45deg, #fd79a8, #fdcb6e);
             color: white;
             padding: 8px 16px;
             border-radius: 20px;
@@ -306,31 +289,14 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
 
-        .calculation-hint {
-            background: linear-gradient(45deg, #f0fdfc, #ffeaa7);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            border-left: 4px solid #00cec9;
-            font-size: 1em;
-            color: #636e72;
-        }
-
-        .next-stage-info {
-            background: linear-gradient(45deg, #fd79a8, #e84393);
-            color: white;
+        .next-game-info {
+            background: linear-gradient(45deg, #ffe8f0, #fff5f8);
             padding: 25px;
-            border-radius: 18px;
+            border-radius: 15px;
             margin: 20px 0;
-            box-shadow: 0 8px 20px rgba(253, 121, 168, 0.3);
-        }
-
-        .button-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 25px;
+            border-left: 5px solid #fd79a8;
+            font-size: 1.1em;
+            color: #2d3436;
         }
 
         .game-end-emoji {
@@ -367,52 +333,25 @@
             .problem-text {
                 font-size: 1.4em;
             }
-            
-            .equation-display {
-                font-size: 1.2em;
-            }
-
-            .button-group {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .start-btn, .next-game-btn, .submit-btn {
-                width: 100%;
-                max-width: 300px;
-            }
         }
     </style>
 </head>
 <body>
     <div class="game-container">
         <h1 class="game-title">🧠 치매 예방 365</h1>
-        <h2 class="game-subtitle">2단계 - 두번째 게임</h2>
+        <h2 class="game-subtitle">1단계 - 두번째 게임</h2>
         
         <div id="game-content">
             <div class="start-screen">
-                <div class="difficulty-badge">🔍 빠진 숫자 찾기</div>
+                <div class="difficulty-badge">🔢 중급 레벨</div>
                 <div class="start-description">
-                    <strong>🎯 빠진 숫자 찾기 게임</strong><br><br>
-                    3개 숫자의 합이 목표 숫자가 되도록<br>
-                    빠진 숫자 하나를 찾는 게임입니다!<br><br>
-                    <strong>🎮 게임 방법:</strong><br>
-                    • 2개의 숫자가 주어집니다<br>
-                    • 3개 숫자의 합이 목표 숫자가 되도록<br>
-                    • 빠진 숫자 하나를 계산해서 입력하세요<br><br>
-                    <strong>⏰ 목표:</strong> 90초 안에 정확하게 계산하기<br>
+                    <strong>🎯 세자리 숫자 덧셈 게임</strong><br><br>
+                    두 개의 세자리 숫자를 더하는 계산 게임입니다.<br>
+                    첫번째 게임보다 조금 더 도전적인 문제들이 준비되어 있어요!<br><br>
+                    <strong>⏰ 목표:</strong> 60초 안에 정확하게 계산하기<br>
                     <strong>📝 평가:</strong> 정답 개수와 시간으로 평가됩니다<br>
-                    <strong>🔢 범위:</strong> 1~99 사이의 숫자<br>
-                    <strong>💡 팁:</strong> 목표에서 2개 숫자의 합을 빼면 답이 나와요
+                    <strong>💡 팁:</strong> 천천히 차근차근 계산해보세요
                 </div>
-                
-                <div class="calculation-hint">
-                    <strong>💭 계산 예시:</strong><br>
-                    목표: 99, 주어진 숫자: 10 + 20 + ? = 99<br>
-                    계산: 99 - (10 + 20) = 99 - 30 = 69<br>
-                    답: 69
-                </div>
-                
                 <button class="start-btn" onclick="startGame()">🚀 게임 시작</button>
             </div>
         </div>
@@ -431,50 +370,26 @@
         function generateProblems() {
             problems = [];
             for (let i = 0; i < 5; i++) {
-                // 목표 합계 생성 (50~200 범위)
-                const target = Math.floor(Math.random() * 150) + 50;
-                const numbers = [];
-                
-                // 2개의 숫자 생성 (1~99 범위)
-                for (let j = 0; j < 2; j++) {
-                    numbers.push(Math.floor(Math.random() * 99) + 1);
-                }
-                
-                // 빠진 숫자 계산
-                const sum = numbers.reduce((a, b) => a + b, 0);
-                const missing = target - sum;
-                
-                // 빠진 숫자가 1~99 범위에 있는지 확인
-                if (missing >= 1 && missing <= 99) {
-                    problems.push({
-                        target,
-                        numbers: [...numbers],
-                        answer: missing
-                    });
-                } else {
-                    i--; // 조건에 맞지 않으면 다시 생성
-                }
+                const a = Math.floor(Math.random() * 900) + 100; // 100-999
+                const b = Math.floor(Math.random() * 900) + 100; // 100-999
+                problems.push({ a, b, answer: a + b });
             }
         }
 
         function renderGame() {
             const content = `
-                <div class="difficulty-badge">🔍 빠진 숫자 찾기</div>
-                <div class="timer" id="timer">90초</div>
+                <div class="difficulty-badge">🔢 중급 레벨</div>
+                <div class="game-subtitle">세자리 숫자 덧셈 게임</div>
+                <div class="timer" id="timer">60초</div>
                 <div class="problems-grid">
                     ${problems.map((problem, index) => `
                         <div class="problem-row">
-                            <div class="problem-text">문제 ${index + 1}</div>
-                            <div class="equation-display">
-                                ${problem.numbers.join(' + ')} + <span class="missing-number">?</span> = ${problem.target}
-                            </div>
+                            <div class="problem-text">${problem.a} + ${problem.b} = ?</div>
                             <input type="number" 
                                    class="answer-input" 
                                    id="answer-${index}" 
                                    onkeypress="handleEnter(event, ${index})"
-                                   placeholder="빠진 숫자는?" 
-                                   min="1" 
-                                   max="99" />
+                                   placeholder="답을 입력하세요" />
                         </div>
                     `).join('')}
                 </div>
@@ -504,7 +419,7 @@
 
         function startTimer() {
             const timerElement = document.getElementById('timer');
-            let timeLeft = 90;
+            let timeLeft = 60;
             
             const interval = setInterval(() => {
                 timeLeft--;
@@ -572,8 +487,6 @@
             
             setTimeout(() => {
                 showResult(timeTaken, correctCount);
-                // 결과 페이지를 페이지 상단으로 스크롤
-                window.scrollTo({ top: 0, behavior: 'smooth' });
             }, 1500);
         }
 
@@ -585,44 +498,29 @@
                 if (correctCount === 5) {
                     message = '정말 잘했어요!';
                     resultClass = 'result-excellent';
-                } else if (correctCount >= 3) {
+                } else if (correctCount >= 2) {
                     message = '잘했어요!';
                     resultClass = 'result-good';
                 } else {
                     message = '분발하세요!';
                     resultClass = 'result-average';
                 }
-            } else if (timeTaken >= 90) {
+            } else {
                 if (correctCount === 5) {
                     message = '잘했어요! 다음에는 조금 빨리!';
                     resultClass = 'result-good';
-                } else if (correctCount >= 3) {
+                } else if (correctCount >= 2) {
                     message = '평범해요! 다음에는 조금 빨리!';
                     resultClass = 'result-average';
                 } else {
                     message = '오늘 컨디션이 좋지 않으신가봐요. 다음에는 조금 빨리!';
                     resultClass = 'result-poor';
                 }
-            } else {
-                // 60초 초과 90초 미만
-                if (correctCount === 5) {
-                    message = '잘했어요! 다음에는 조금 빨리!';
-                    resultClass = 'result-good';
-                } else if (correctCount >= 3) {
-                    message = '평범해요! 다음에는 조금 빨리!';
-                    resultClass = 'result-average';
-                } else {
-                    message = '분발하세요!';
-                    resultClass = 'result-average';
-                }
             }
             
             const content = `
-                <div class="difficulty-badge">🔍 빠진 숫자 찾기</div>
-                <div class="game-end-emoji">🎉🧮🎊</div>
-                <div style="font-size: 1.5em; color: #00cec9; font-weight: bold; margin: 20px 0;">
-                    두번째 게임 끝! 🎯
-                </div>
+                <div class="game-end-emoji">🎉🎊🎈</div>
+                <div class="difficulty-badge">🏁 두번째 게임 끝</div>
                 <div class="result-message ${resultClass}">${message}</div>
                 
                 <div class="result-summary">
@@ -646,7 +544,7 @@
                         ${answers.map((answer, index) => `
                             <div class="answer-item ${answer.isCorrect ? 'correct' : 'incorrect'}">
                                 <strong>문제 ${index + 1}:</strong> 
-                                ${answer.problem.numbers.join(' + ')} + ${answer.correct} = ${answer.problem.target}
+                                ${answer.problem.a} + ${answer.problem.b} = ${answer.correct}
                                 ${answer.isCorrect ? 
                                     ' ✅' : 
                                     ` ❌ (입력한 답: ${answer.userAnswer || '무응답'})`
@@ -654,238 +552,97 @@
                             </div>
                         `).join('')}
                     </div>
-                    
-                    <div style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px; text-align: left;">
-                        <h4 style="margin-bottom: 15px; color: #2d3436;">🧠 향상된 능력</h4>
-                        <div style="color: #636e72; line-height: 1.6;">
-                            • <strong>계산 능력:</strong> 덧셈과 뺄셈의 역관계 이해<br>
-                            • <strong>논리적 사고:</strong> 목표에서 역산하는 능력<br>
-                            • <strong>집중력:</strong> 여러 숫자를 동시에 처리하는 능력<br>
-                            • <strong>문제 해결:</strong> 단계적 계산 과정 습득
-                        </div>
-                    </div>
-                </div>
-
-                <div class="next-stage-info">
-                    <h3>🚀 다음 단계 준비!</h3>
-                    <p>세번째 게임으로 바로 이동할 수 있습니다.<br>
-                    더 흥미진진한 두뇌 훈련이 기다리고 있어요!</p>
                 </div>
                 
-                <div class="button-group">
-                    <button class="next-game-btn" onclick="goToNextGame()">🎮 세번째 게임</button>
-                    <button class="submit-btn" onclick="restartGame()">🔄 다시 하기</button>
-                </div>
+                <button class="next-game-btn" onclick="goToNextGame()">🚀 다음 게임으로</button>
+                <button class="start-btn" onclick="restartGame()">🔄 다시 도전</button>
             `;
             
             document.getElementById('game-content').innerHTML = content;
+            
+            // 페이지 맨 위로 스크롤
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function goToNextGame() {
-            console.log('goToNextGame 함수 호출됨'); // 디버깅용
+            // 새 창으로 다음 게임 열기
+            const nextGameWindow = window.open(
+                'https://asitis7.github.io/Senior_Game/Senior_01_03.html', 
+                '_blank', 
+                'width=800,height=600,scrollbars=yes,resizable=yes,toolbar=no,location=no'
+            );
             
-            const nextGameUrl = 'https://asitis7.github.io/Senior_Game/Senior_02_03.html';
-            
-            console.log('새 창에서 게임 열기 시도:', nextGameUrl); // 디버깅용
-            
-            try {
-                // 방법 1: 표준 새 창 열기 (가장 안전함)
-                const newWindow = window.open(nextGameUrl, '_blank', 'noopener,noreferrer');
+            // 팝업 차단 확인
+            if (!nextGameWindow || nextGameWindow.closed || typeof nextGameWindow.closed == 'undefined') {
+                // 팝업이 차단된 경우 사용자에게 안내
+                alert('팝업이 차단되었습니다!\n\n아래 주소를 새 탭에서 열어주세요:\nhttps://asitis7.github.io/Senior_Game/Senior_01_03.html\n\n또는 브라우저 설정에서 팝업을 허용해주세요.');
                 
-                if (newWindow) {
-                    console.log('새 창 열기 성공');
-                    newWindow.focus();
-                    
-                    // 성공 메시지 표시
-                    showNextGameSuccess();
-                } else {
-                    console.log('팝업 차단됨, 사용자 액션으로 재시도');
-                    
-                    // 팝업이 차단된 경우 사용자 액션 요구
-                    const userAction = confirm('팝업이 차단되었습니다.\n\n"확인"을 누르면 새 창에서 세번째 게임이 열립니다.');
-                    
-                    if (userAction) {
-                        // 사용자 액션 후 다시 시도 (브라우저가 허용할 가능성 높음)
-                        const retryWindow = window.open(nextGameUrl, '_blank', 'width=1000,height=700,scrollbars=yes,resizable=yes,noopener,noreferrer');
-                        
-                        if (retryWindow) {
-                            console.log('재시도 성공');
-                            retryWindow.focus();
-                            showNextGameSuccess();
-                        } else {
-                            // 여전히 차단된 경우 링크 제공
-                            showPopupBlockedMessage(nextGameUrl);
-                        }
-                    }
-                }
-                
-            } catch (error) {
-                console.error('새 창 열기 에러:', error);
-                
-                // 에러 발생 시 대체 방법
-                try {
-                    // 방법 2: 동적으로 링크 생성 후 클릭 (사용자 액션으로 간주됨)
-                    const link = document.createElement('a');
-                    link.href = nextGameUrl;
-                    link.target = '_blank';
-                    link.rel = 'noopener noreferrer';
-                    
-                    // 링크를 DOM에 추가
-                    document.body.appendChild(link);
-                    
-                    // 프로그래밍 방식으로 클릭
-                    link.click();
-                    
-                    // 링크 제거
-                    document.body.removeChild(link);
-                    
-                    console.log('동적 링크 클릭 방법 사용됨');
-                    showNextGameSuccess();
-                    
-                } catch (error2) {
-                    console.error('동적 링크 방법도 실패:', error2);
-                    showPopupBlockedMessage(nextGameUrl);
-                }
+                // 수동으로 URL 복사할 수 있도록 안내
+                showManualNextGame();
+            } else {
+                // 새 창에 포커스
+                nextGameWindow.focus();
             }
         }
 
-        function showNextGameSuccess() {
-            // 페이지 상단으로 스크롤
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
+        function showManualNextGame() {
             const content = `
-                <div class="difficulty-badge">🎉 두번째 게임 완료!</div>
-                <div class="game-end-emoji">🎯🎊🌟</div>
-                <div style="font-size: 1.5em; color: #00cec9; font-weight: bold; margin: 20px 0;">
-                    두번째 게임 끝! 축하합니다! 🎉
-                </div>
-                
-                <div class="next-stage-info">
-                    <h3>✅ 세번째 게임이 새 창에서 열렸습니다!</h3>
-                    <p>새 창에서 다음 단계의 두뇌 훈련을 진행하세요.<br>
-                    새 창이 보이지 않으면 브라우저 상단의 탭을 확인해주세요.</p>
-                </div>
-                
-                <div class="start-description">
-                    <strong>두번째 게임 완료!</strong><br><br>
-                    축하합니다! 빠진 숫자 찾기 게임을 성공적으로 완료하셨습니다.<br>
-                    역산 계산과 논리적 사고를 잘 활용하셨네요!<br><br>
-                    <strong>현재 진행:</strong> 세번째 게임이 새 창에서 실행 중<br>
-                    <strong>다음 추천:</strong><br>
-                    • 패턴 인식 게임<br>
-                    • 기억력 향상 게임<br>
-                    • 논리 퍼즐 게임<br><br>
-                    간단한 계산으로 두뇌를 활성화하고<br>
-                    논리적 사고 능력을 향상시켜 보세요!
-                </div>
-                
-                <div class="button-group">
-                    <button class="start-btn" onclick="restartGame()">🔄 다시 하기</button>
-                    <button class="next-game-btn" onclick="goToNextGame()">🎮 세번째 게임 다시 열기</button>
-                </div>
-            `;
-            
-            document.getElementById('game-content').innerHTML = content;
-        }
-
-        function showPopupBlockedMessage(url) {
-            // 페이지 상단으로 스크롤
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            const content = `
-                <div class="difficulty-badge">⚠️ 팝업 차단 안내</div>
-                <div style="font-size: 1.5em; color: #e17055; font-weight: bold; margin: 20px 0;">
-                    새 창 열기가 차단되었습니다 🚫
-                </div>
-                
-                <div class="start-description">
-                    <strong>🔧 해결 방법:</strong><br><br>
-                    <strong>1. 수동으로 열기:</strong><br>
-                    아래 링크를 마우스 오른쪽 버튼으로 클릭하고<br>
-                    "새 탭에서 열기"를 선택하세요.<br><br>
+                <div class="game-end-emoji">🎉🎊🎈</div>
+                <div class="difficulty-badge">🎯 다음 게임으로 이동</div>
+                <div class="next-game-info">
+                    <strong>팝업이 차단되었습니다!</strong><br><br>
+                    아래 방법 중 하나를 선택해주세요:<br><br>
                     
-                    <a href="${url}" target="_blank" rel="noopener noreferrer" 
-                       style="display: inline-block; background: linear-gradient(45deg, #00cec9, #55efc4); 
-                              color: white; padding: 15px 30px; border-radius: 25px; 
-                              text-decoration: none; font-weight: bold; margin: 10px 0;">
-                        🎮 세번째 게임 링크
+                    <strong>방법 1:</strong> 아래 링크를 클릭하세요<br>
+                    <a href="https://asitis7.github.io/Senior_Game/Senior_01_03.html" 
+                       target="_blank" 
+                       style="color: #fd79a8; font-weight: bold; text-decoration: underline;">
+                       🔗 치매 예방 365 - 1단계 세번째 게임 열기
                     </a><br><br>
                     
-                    <strong>2. 브라우저 설정:</strong><br>
-                    • Chrome: 주소창 오른쪽 팝업 차단 아이콘 클릭<br>
-                    • Firefox: 주소창 왼쪽 방패 아이콘 클릭<br>
-                    • Safari: 환경설정 > 웹사이트 > 팝업창에서 허용<br><br>
-                    
-                    <strong>3. 직접 주소 입력:</strong><br>
-                    새 탭을 열고 아래 주소를 복사하여 붙여넣으세요:<br>
-                    <div style="background: #f1f2f6; padding: 10px; border-radius: 5px; 
-                                font-family: monospace; word-break: break-all; margin: 10px 0;">
-                        ${url}
+                    <strong>방법 2:</strong> 아래 주소를 복사해서 새 탭에서 열어주세요<br>
+                    <div style="background: #f1f2f6; padding: 10px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 0.9em; word-break: break-all;">
+                        https://asitis7.github.io/Senior_Game/Senior_01_03.html
                     </div>
+                    
+                    <strong>다음 게임 정보:</strong><br>
+                    • 치매 예방 365 - 1단계 세번째 게임<br>
+                    • 곱셈 게임 (2자리 × 1자리)<br>
+                    • 구구단을 활용한 계산 문제들
                 </div>
-                
-                <div class="button-group">
-                    <button class="start-btn" onclick="restartGame()">🔄 다시 하기</button>
-                    <button class="next-game-btn" onclick="copyToClipboard('${url}')">📋 주소 복사</button>
-                    <button class="submit-btn" onclick="goToNextGame()" style="background: linear-gradient(45deg, #fd79a8, #e84393);">🔄 다시 시도</button>
-                </div>
+                <button class="next-game-btn" onclick="goToNextGame()">🔄 다시 시도</button>
+                <button class="start-btn" onclick="restartGame()">🔄 두번째 게임 다시 하기</button>
             `;
             
             document.getElementById('game-content').innerHTML = content;
-        }
-
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('주소가 클립보드에 복사되었습니다!\n새 탭을 열고 Ctrl+V로 붙여넣으세요.');
-            }).catch(() => {
-                alert('복사에 실패했습니다.\n다음 주소를 수동으로 복사하세요:\n\n' + text);
-            });
-        }
-
-        function showNextGameLaunched() {
-            // 이 함수는 showNextGameSuccess로 대체됨
-            showNextGameSuccess();
+            
+            // 페이지 맨 위로 스크롤
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function restartGame() {
             // 게임 초기화
             answers = [];
             
-            // 페이지 상단으로 스크롤
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
             // 시작 화면으로 복원
             document.getElementById('game-content').innerHTML = `
                 <div class="start-screen">
-                    <div class="difficulty-badge">🔍 빠진 숫자 찾기</div>
+                    <div class="difficulty-badge">🔢 중급 레벨</div>
                     <div class="start-description">
-                        <strong>🎯 빠진 숫자 찾기 게임</strong><br><br>
-                        3개 숫자의 합이 목표 숫자가 되도록<br>
-                        빠진 숫자 하나를 찾는 게임입니다!<br><br>
-                        <strong>🎮 게임 방법:</strong><br>
-                        • 2개의 숫자가 주어집니다<br>
-                        • 3개 숫자의 합이 목표 숫자가 되도록<br>
-                        • 빠진 숫자 하나를 계산해서 입력하세요<br><br>
-                        <strong>⏰ 목표:</strong> 90초 안에 정확하게 계산하기<br>
+                        <strong>🎯 세자리 숫자 덧셈 게임</strong><br><br>
+                        두 개의 세자리 숫자를 더하는 계산 게임입니다.<br>
+                        첫번째 게임보다 조금 더 도전적인 문제들이 준비되어 있어요!<br><br>
+                        <strong>⏰ 목표:</strong> 60초 안에 정확하게 계산하기<br>
                         <strong>📝 평가:</strong> 정답 개수와 시간으로 평가됩니다<br>
-                        <strong>🔢 범위:</strong> 1~99 사이의 숫자<br>
-                        <strong>💡 팁:</strong> 목표에서 2개 숫자의 합을 빼면 답이 나와요
+                        <strong>💡 팁:</strong> 천천히 차근차근 계산해보세요
                     </div>
-                    
-                    <div class="calculation-hint">
-                        <strong>💭 계산 예시:</strong><br>
-                        목표: 99, 주어진 숫자: 10 + 20 + ? = 99<br>
-                        계산: 99 - (10 + 20) = 99 - 30 = 69<br>
-                        답: 69
-                    </div>
-                    
                     <button class="start-btn" onclick="startGame()">🚀 게임 시작</button>
                 </div>
             `;
+            
+            // 페이지 맨 위로 스크롤
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        // 더 이상 새 창을 관리할 필요가 없으므로 제거
-        // window.onbeforeunload 이벤트 리스너 제거
     </script>
 </body>
 </html>
