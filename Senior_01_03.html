@@ -588,7 +588,65 @@
                     </div>
                 </div>
                 
+                <button class="next-game-btn" onclick="goToNextGame()">🚀 다음 게임으로</button>
                 <button class="start-btn" onclick="restartGame()">🔄 다시 도전</button>
+            `;
+            
+            document.getElementById('game-content').innerHTML = content;
+            
+            // 페이지 맨 위로 스크롤
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goToNextGame() {
+            // 새 창으로 다음 게임 열기
+            const nextGameWindow = window.open(
+                'https://asitis7.github.io/Senior_Game/Senior_01_04.html', 
+                '_blank', 
+                'width=800,height=600,scrollbars=yes,resizable=yes,toolbar=no,location=no'
+            );
+            
+            // 팝업 차단 확인
+            if (!nextGameWindow || nextGameWindow.closed || typeof nextGameWindow.closed == 'undefined') {
+                // 팝업이 차단된 경우 사용자에게 안내
+                alert('팝업이 차단되었습니다!\n\n아래 주소를 새 탭에서 열어주세요:\nhttps://asitis7.github.io/Senior_Game/Senior_01_04.html\n\n또는 브라우저 설정에서 팝업을 허용해주세요.');
+                
+                // 수동으로 URL 복사할 수 있도록 안내
+                showManualNextGame();
+            } else {
+                // 새 창에 포커스
+                nextGameWindow.focus();
+            }
+        }
+
+        function showManualNextGame() {
+            const content = `
+                <div class="game-end-emoji">🎯✖️🎊</div>
+                <div class="difficulty-badge">🎯 다음 게임으로 이동</div>
+                <div class="next-game-info">
+                    <strong>팝업이 차단되었습니다!</strong><br><br>
+                    아래 방법 중 하나를 선택해주세요:<br><br>
+                    
+                    <strong>방법 1:</strong> 아래 링크를 클릭하세요<br>
+                    <a href="https://asitis7.github.io/Senior_Game/Senior_01_04.html" 
+                       target="_blank" 
+                       style="color: #74b9ff; font-weight: bold; text-decoration: underline;">
+                       🔗 치매 예방 365 - 1단계 네번째 게임 열기
+                    </a><br><br>
+                    
+                    <strong>방법 2:</strong> 아래 주소를 복사해서 새 탭에서 열어주세요<br>
+                    <div style="background: #f1f2f6; padding: 10px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 0.9em; word-break: break-all;">
+                        https://asitis7.github.io/Senior_Game/Senior_01_04.html
+                    </div>
+                    
+                    <strong>다음 게임 정보:</strong><br>
+                    • 치매 예방 365 - 1단계 네번째 게임<br>
+                    • 나눗셈 게임 (3자리 ÷ 1자리)<br>
+                    • 나머지가 없는 정수 나눗셈 문제들<br>
+                    • 1단계의 마지막 게임
+                </div>
+                <button class="next-game-btn" onclick="goToNextGame()">🔄 다시 시도</button>
+                <button class="start-btn" onclick="restartGame()">🔄 세번째 게임 다시 하기</button>
             `;
             
             document.getElementById('game-content').innerHTML = content;
