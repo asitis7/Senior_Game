@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Senior 2-2</title>
+    <title>치매 예방 365 - 2단계 두번째 게임</title>
     <style>
         * {
             margin: 0;
@@ -35,7 +35,7 @@
             color: #00cec9;
             font-size: 2.8em;
             font-weight: bold;
-            margin-bottom: 25px;
+            margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
@@ -333,6 +333,24 @@
             margin-top: 25px;
         }
 
+        .game-end-emoji {
+            font-size: 4em;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-30px);
+            }
+            60% {
+                transform: translateY(-15px);
+            }
+        }
+
         @media (max-width: 600px) {
             .game-container {
                 padding: 25px;
@@ -368,7 +386,8 @@
 </head>
 <body>
     <div class="game-container">
-        <h1 class="game-title">📚 For Senior 2-2</h1>
+        <h1 class="game-title">🧠 치매 예방 365</h1>
+        <h2 class="game-subtitle">2단계 - 두번째 게임</h2>
         
         <div id="game-content">
             <div class="start-screen">
@@ -403,7 +422,6 @@
         let startTime;
         let problems = [];
         let answers = [];
-        let nextGameWindow = null;
 
         function startGame() {
             generateProblems();
@@ -442,7 +460,6 @@
         function renderGame() {
             const content = `
                 <div class="difficulty-badge">🔍 빠진 숫자 찾기</div>
-                <div class="game-subtitle">빠진 숫자 찾기 게임 (5문제)</div>
                 <div class="timer" id="timer">90초</div>
                 <div class="problems-grid">
                     ${problems.map((problem, index) => `
@@ -555,6 +572,8 @@
             
             setTimeout(() => {
                 showResult(timeTaken, correctCount);
+                // 결과 페이지를 페이지 상단으로 스크롤
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }, 1500);
         }
 
@@ -600,7 +619,10 @@
             
             const content = `
                 <div class="difficulty-badge">🔍 빠진 숫자 찾기</div>
-                <div class="game-subtitle">게임 결과</div>
+                <div class="game-end-emoji">🎉🧮🎊</div>
+                <div style="font-size: 1.5em; color: #00cec9; font-weight: bold; margin: 20px 0;">
+                    두번째 게임 끝! 🎯
+                </div>
                 <div class="result-message ${resultClass}">${message}</div>
                 
                 <div class="result-summary">
@@ -646,13 +668,13 @@
 
                 <div class="next-stage-info">
                     <h3>🚀 다음 단계 준비!</h3>
-                    <p>For Senior 2-3 게임이 새 창에서 열립니다.<br>
+                    <p>세번째 게임으로 바로 이동할 수 있습니다.<br>
                     더 흥미진진한 두뇌 훈련이 기다리고 있어요!</p>
                 </div>
                 
                 <div class="button-group">
-                    <button class="next-game-btn" onclick="goToNextGame()">🎮 다음 게임 (2-3)</button>
-                    <button class="submit-btn" onclick="restartGame()">🔄 2-2 다시 하기</button>
+                    <button class="next-game-btn" onclick="goToNextGame()">🎮 세번째 게임</button>
+                    <button class="submit-btn" onclick="restartGame()">🔄 다시 하기</button>
                 </div>
             `;
             
@@ -660,44 +682,95 @@
         }
 
         function goToNextGame() {
+            console.log('goToNextGame 함수 호출됨'); // 디버깅용
+            
             const nextGameUrl = 'https://asitis7.github.io/Senior_Game/Senior_02_03.html';
             
-            // 새 창에서 다음 게임 열기
-            nextGameWindow = window.open(
-                nextGameUrl,
-                'senior_2_3',
-                'width=800,height=600,scrollbars=yes,resizable=yes'
-            );
+            console.log('새 창에서 게임 열기 시도:', nextGameUrl); // 디버깅용
             
-            // 팝업 차단 확인
-            if (!nextGameWindow || nextGameWindow.closed || typeof nextGameWindow.closed == 'undefined') {
-                alert(`팝업이 차단되었습니다!\n\n브라우저 설정에서 팝업을 허용하거나,\n아래 주소를 새 탭에서 직접 열어주세요:\n\n${nextGameUrl}`);
-                return;
+            try {
+                // 방법 1: 표준 새 창 열기 (가장 안전함)
+                const newWindow = window.open(nextGameUrl, '_blank', 'noopener,noreferrer');
+                
+                if (newWindow) {
+                    console.log('새 창 열기 성공');
+                    newWindow.focus();
+                    
+                    // 성공 메시지 표시
+                    showNextGameSuccess();
+                } else {
+                    console.log('팝업 차단됨, 사용자 액션으로 재시도');
+                    
+                    // 팝업이 차단된 경우 사용자 액션 요구
+                    const userAction = confirm('팝업이 차단되었습니다.\n\n"확인"을 누르면 새 창에서 세번째 게임이 열립니다.');
+                    
+                    if (userAction) {
+                        // 사용자 액션 후 다시 시도 (브라우저가 허용할 가능성 높음)
+                        const retryWindow = window.open(nextGameUrl, '_blank', 'width=1000,height=700,scrollbars=yes,resizable=yes,noopener,noreferrer');
+                        
+                        if (retryWindow) {
+                            console.log('재시도 성공');
+                            retryWindow.focus();
+                            showNextGameSuccess();
+                        } else {
+                            // 여전히 차단된 경우 링크 제공
+                            showPopupBlockedMessage(nextGameUrl);
+                        }
+                    }
+                }
+                
+            } catch (error) {
+                console.error('새 창 열기 에러:', error);
+                
+                // 에러 발생 시 대체 방법
+                try {
+                    // 방법 2: 동적으로 링크 생성 후 클릭 (사용자 액션으로 간주됨)
+                    const link = document.createElement('a');
+                    link.href = nextGameUrl;
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    
+                    // 링크를 DOM에 추가
+                    document.body.appendChild(link);
+                    
+                    // 프로그래밍 방식으로 클릭
+                    link.click();
+                    
+                    // 링크 제거
+                    document.body.removeChild(link);
+                    
+                    console.log('동적 링크 클릭 방법 사용됨');
+                    showNextGameSuccess();
+                    
+                } catch (error2) {
+                    console.error('동적 링크 방법도 실패:', error2);
+                    showPopupBlockedMessage(nextGameUrl);
+                }
             }
-            
-            // 새 창에 포커스
-            nextGameWindow.focus();
-            
-            // 성공 메시지 표시
-            showNextGameLaunched();
         }
 
-        function showNextGameLaunched() {
+        function showNextGameSuccess() {
+            // 페이지 상단으로 스크롤
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
             const content = `
-                <div class="difficulty-badge">🎉 2-2 완료!</div>
-                <div class="game-subtitle">다음 게임으로 이동</div>
+                <div class="difficulty-badge">🎉 두번째 게임 완료!</div>
+                <div class="game-end-emoji">🎯🎊🌟</div>
+                <div style="font-size: 1.5em; color: #00cec9; font-weight: bold; margin: 20px 0;">
+                    두번째 게임 끝! 축하합니다! 🎉
+                </div>
                 
                 <div class="next-stage-info">
-                    <h3>✅ For Senior 2-3 게임이 열렸습니다!</h3>
+                    <h3>✅ 세번째 게임이 새 창에서 열렸습니다!</h3>
                     <p>새 창에서 다음 단계의 두뇌 훈련을 진행하세요.<br>
-                    게임 완료 후 이 창에서 다른 게임을 선택할 수 있습니다.</p>
+                    새 창이 보이지 않으면 브라우저 상단의 탭을 확인해주세요.</p>
                 </div>
                 
                 <div class="start-description">
-                    <strong>For Senior 2-2 완료!</strong><br><br>
+                    <strong>두번째 게임 완료!</strong><br><br>
                     축하합니다! 빠진 숫자 찾기 게임을 성공적으로 완료하셨습니다.<br>
                     역산 계산과 논리적 사고를 잘 활용하셨네요!<br><br>
-                    <strong>현재 진행:</strong> For Senior 2-3 게임 실행 중<br>
+                    <strong>현재 진행:</strong> 세번째 게임이 새 창에서 실행 중<br>
                     <strong>다음 추천:</strong><br>
                     • 패턴 인식 게임<br>
                     • 기억력 향상 게임<br>
@@ -707,17 +780,79 @@
                 </div>
                 
                 <div class="button-group">
-                    <button class="start-btn" onclick="restartGame()">🔄 2-2 다시 하기</button>
-                    <button class="submit-btn" onclick="goToNextGame()" style="background: linear-gradient(45deg, #fd79a8, #e84393);">🎮 2-3 다시 열기</button>
+                    <button class="start-btn" onclick="restartGame()">🔄 다시 하기</button>
+                    <button class="next-game-btn" onclick="goToNextGame()">🎮 세번째 게임 다시 열기</button>
                 </div>
             `;
             
             document.getElementById('game-content').innerHTML = content;
         }
 
+        function showPopupBlockedMessage(url) {
+            // 페이지 상단으로 스크롤
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            const content = `
+                <div class="difficulty-badge">⚠️ 팝업 차단 안내</div>
+                <div style="font-size: 1.5em; color: #e17055; font-weight: bold; margin: 20px 0;">
+                    새 창 열기가 차단되었습니다 🚫
+                </div>
+                
+                <div class="start-description">
+                    <strong>🔧 해결 방법:</strong><br><br>
+                    <strong>1. 수동으로 열기:</strong><br>
+                    아래 링크를 마우스 오른쪽 버튼으로 클릭하고<br>
+                    "새 탭에서 열기"를 선택하세요.<br><br>
+                    
+                    <a href="${url}" target="_blank" rel="noopener noreferrer" 
+                       style="display: inline-block; background: linear-gradient(45deg, #00cec9, #55efc4); 
+                              color: white; padding: 15px 30px; border-radius: 25px; 
+                              text-decoration: none; font-weight: bold; margin: 10px 0;">
+                        🎮 세번째 게임 링크
+                    </a><br><br>
+                    
+                    <strong>2. 브라우저 설정:</strong><br>
+                    • Chrome: 주소창 오른쪽 팝업 차단 아이콘 클릭<br>
+                    • Firefox: 주소창 왼쪽 방패 아이콘 클릭<br>
+                    • Safari: 환경설정 > 웹사이트 > 팝업창에서 허용<br><br>
+                    
+                    <strong>3. 직접 주소 입력:</strong><br>
+                    새 탭을 열고 아래 주소를 복사하여 붙여넣으세요:<br>
+                    <div style="background: #f1f2f6; padding: 10px; border-radius: 5px; 
+                                font-family: monospace; word-break: break-all; margin: 10px 0;">
+                        ${url}
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="start-btn" onclick="restartGame()">🔄 다시 하기</button>
+                    <button class="next-game-btn" onclick="copyToClipboard('${url}')">📋 주소 복사</button>
+                    <button class="submit-btn" onclick="goToNextGame()" style="background: linear-gradient(45deg, #fd79a8, #e84393);">🔄 다시 시도</button>
+                </div>
+            `;
+            
+            document.getElementById('game-content').innerHTML = content;
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('주소가 클립보드에 복사되었습니다!\n새 탭을 열고 Ctrl+V로 붙여넣으세요.');
+            }).catch(() => {
+                alert('복사에 실패했습니다.\n다음 주소를 수동으로 복사하세요:\n\n' + text);
+            });
+        }
+
+        function showNextGameLaunched() {
+            // 이 함수는 showNextGameSuccess로 대체됨
+            showNextGameSuccess();
+        }
+
         function restartGame() {
             // 게임 초기화
             answers = [];
+            
+            // 페이지 상단으로 스크롤
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             
             // 시작 화면으로 복원
             document.getElementById('game-content').innerHTML = `
@@ -749,12 +884,8 @@
             `;
         }
 
-        // 페이지 언로드 시 열린 게임 창 닫기
-        window.onbeforeunload = function() {
-            if (nextGameWindow && !nextGameWindow.closed) {
-                nextGameWindow.close();
-            }
-        };
+        // 더 이상 새 창을 관리할 필요가 없으므로 제거
+        // window.onbeforeunload 이벤트 리스너 제거
     </script>
 </body>
 </html>
