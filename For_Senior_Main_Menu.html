@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>치매 예방 365</title>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PGX1LHBFHM"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-PGX1LHBFHM');
+    </script>
     <style>
         * {
             margin: 0;
@@ -435,6 +444,15 @@
             const current = gameState.games[gameState.currentGameIndex];
             const launchBtn = document.getElementById('launchBtn');
             
+            // Google Analytics 이벤트 추적
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'game_start', {
+                    'game_name': current.title,
+                    'game_index': gameState.currentGameIndex + 1,
+                    'game_url': current.url
+                });
+            }
+            
             // 게임 창 열기
             gameState.gameWindow = window.open(
                 current.url, 
@@ -444,6 +462,13 @@
             
             // 팝업 차단 확인
             if (!gameState.gameWindow || gameState.gameWindow.closed || typeof gameState.gameWindow.closed == 'undefined') {
+                // 팝업 차단 이벤트 추적
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'popup_blocked', {
+                        'game_name': current.title,
+                        'game_index': gameState.currentGameIndex + 1
+                    });
+                }
                 alert(`팝업이 차단되었습니다!\n\n브라우저 설정에서 팝업을 허용하거나,\n아래 주소를 새 탭에서 직접 열어주세요:\n\n${current.url}`);
                 return;
             }
@@ -464,6 +489,15 @@
 
         function markGameCompleted() {
             const launchBtn = document.getElementById('launchBtn');
+            const current = gameState.games[gameState.currentGameIndex];
+            
+            // Google Analytics 게임 완료 이벤트 추적
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'game_completed', {
+                    'game_name': current.title,
+                    'game_index': gameState.currentGameIndex + 1
+                });
+            }
             
             // 게임 창 닫기 (열려있다면)
             if (gameState.gameWindow && !gameState.gameWindow.closed) {
@@ -533,6 +567,14 @@
         }
 
         function showCompletionScreen() {
+            // Google Analytics 전체 완료 이벤트 추적
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'all_games_completed', {
+                    'total_games': gameState.totalGames,
+                    'completion_time': new Date().toISOString()
+                });
+            }
+            
             document.getElementById('gameContainer').classList.add('hidden');
             document.getElementById('completionSection').classList.remove('hidden');
             
@@ -542,6 +584,13 @@
         }
 
         function restartAllGames() {
+            // Google Analytics 재시작 이벤트 추적
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'restart_all_games', {
+                    'restart_time': new Date().toISOString()
+                });
+            }
+            
             gameState.currentGameIndex = 0;
             
             // 화면 복원
