@@ -284,6 +284,25 @@
             margin-top: 25px;
         }
 
+        .skip-btn {
+            background: linear-gradient(45deg, #fdcb6e, #e17055);
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 35px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(253, 203, 110, 0.3);
+            margin: 10px;
+        }
+
+        .skip-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(253, 203, 110, 0.4);
+        }
+
         .game-end-emoji {
             font-size: 4em;
             margin: 20px 0;
@@ -324,7 +343,7 @@
                 align-items: center;
             }
 
-            .start-btn, .next-game-btn, .submit-btn {
+            .start-btn, .next-game-btn, .submit-btn, .skip-btn {
                 width: 100%;
                 max-width: 300px;
             }
@@ -370,10 +389,12 @@
         let expectedNumber = 1;
         let gameStarted = false;
         let nextGameWindow = null;
+        let isSkipped = false; // Skip 여부를 추적하는 변수 추가
 
         function startGame() {
             currentGame = 1;
             game1StartTime = Date.now();
+            isSkipped = false; // 게임 시작 시 Skip 상태 초기화
             startNumberGame();
         }
 
@@ -414,6 +435,7 @@
                         <button class="grid-cell" id="cell-${index}" onclick="clickNumber(${num}, ${index})">${num}</button>
                     `).join('')}
                 </div>
+                <button class="skip-btn" onclick="skipCurrentStage()">⏭️ Skip</button>
             `;
             
             document.getElementById('game-content').innerHTML = content;
@@ -490,23 +512,53 @@
             }, 1000);
         }
 
+        function skipCurrentStage() {
+            if (!gameStarted) return;
+            
+            isSkipped = true; // Skip 상태를 true로 설정
+            
+            const endTime = Date.now();
+            const timeTaken = Math.floor((endTime - startTime) / 1000);
+            
+            if (currentGame === 1) {
+                // 1단계 스킵 - 2단계로 이동
+                game1Time = timeTaken;
+                setTimeout(() => {
+                    currentGame = 2;
+                    startNumberGame();
+                }, 500);
+            } else {
+                // 2단계 스킵 - 결과 화면으로 이동
+                game2Time = timeTaken;
+                gameStarted = false;
+                showResult();
+            }
+        }
+
         function showResult() {
             const totalTime = game1Time + game2Time;
             let message = '';
             let resultClass = '';
             
-            if (totalTime <= 60) {
-                message = '정말 잘했어요!';
-                resultClass = 'result-excellent';
-            } else if (totalTime <= 90) {
-                message = '잘했어요! 다음에는 조금 빨리!';
-                resultClass = 'result-good';
-            } else if (totalTime <= 120) {
-                message = '평범해요! 다음에는 조금 빨리!';
+            // Skip 했을 경우 특별한 메시지 표시
+            if (isSkipped) {
+                message = 'Skip 하셨습니다. 다음에는 꼭 하세요.';
                 resultClass = 'result-average';
             } else {
-                message = '오늘 컨디션이 좋지 않으신가봐요. 다음에는 조금 빨리!';
-                resultClass = 'result-poor';
+                // 기존 메시지 로직
+                if (totalTime <= 60) {
+                    message = '정말 잘했어요!';
+                    resultClass = 'result-excellent';
+                } else if (totalTime <= 90) {
+                    message = '잘했어요! 다음에는 조금 빨리!';
+                    resultClass = 'result-good';
+                } else if (totalTime <= 120) {
+                    message = '평범해요! 다음에는 조금 빨리!';
+                    resultClass = 'result-average';
+                } else {
+                    message = '오늘 컨디션이 좋지 않으신가봐요. 다음에는 조금 빨리!';
+                    resultClass = 'result-poor';
+                }
             }
             
             const content = `
@@ -631,6 +683,7 @@
             game2Time = 0;
             expectedNumber = 1;
             gameStarted = false;
+            isSkipped = false; // Skip 상태도 초기화
             
             // 시작 화면으로 복원
             document.getElementById('game-content').innerHTML = `
