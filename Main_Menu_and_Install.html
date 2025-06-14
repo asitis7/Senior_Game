@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>치매 예방 365</title>
+    
+    <!-- PWA 메타 태그 -->
+    <meta name="theme-color" content="#20B2AA">
+    <meta name="description" content="치매 예방을 위한 365일 두뇌 훈련">
+    
+    <!-- iOS 전용 메타 태그 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="치매 예방 365">
+    
+    <!-- 매니페스트 파일 링크 -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PGX1LHBFHM"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-PGX1LHBFHM');
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            overflow-x: hidden;
+            padding: 20px;
+            padding-bottom: 40px;
+        }
+        
+        .header {
+            text-align: center;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        /* PWA 설치 카드 */
+        .install-card {
+            width: 100%;
+            max-width: 500px;
+            background: linear-gradient(135deg, rgba(32, 178, 170, 0.2), rgba(64, 224, 208, 0.2));
+            border: 2px solid rgba(32, 178, 170, 0.4);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(32, 178, 170, 0.2);
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .install-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .install-card.show {
+            display: block;
+            animation: slideInUp 0.5s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .install-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .install-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #40E0D0;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .install-description {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .install-benefits {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        
+        .install-benefits h4 {
+            color: #FFD700;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .benefit-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .benefit-icon {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        
+        .install-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .install-btn {
+            background: linear-gradient(45deg, #20B2AA, #40E0D0);
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(32, 178, 170, 0.4);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 280px;
+        }
+        
+        .install-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(32, 178, 170, 0.6);
+        }
+        
+        .install-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .install-btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 16px;
+            padding: 12px 25px;
+            max-width: 200px;
+        }
+        
+        .install-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .progress-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            border-radius: 5px;
+            transition: width 0.8s ease;
+            width: 0%;
+        }
+        
+        .progress-text {
+            margin-top: 10px;
+            font-size: 14px;
+            opacity: 0.8;
+            text-align: center;
+        }
+        
+        .main-container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .game-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .current-game-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .game-description {
+            font-size: 16px;
+            opacity: 0.9;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+        
+        .game-launch-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+            margin: 15px 0;
+            width: 100%;
+            max-width: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-launch-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
+        }
+        
+        .game-launch-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .game-launch-btn.completed {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .game-status {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border-left: 4px solid #FFD700;
+        }
+        
+        .status-title {
+            color: #FFD700;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .status-text {
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        
+        .completion-section {
+            background: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .completion-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .completion-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .restart-btn {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+        }
+        
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.6);
+        }
+        
+        .auto-progress-indicator {
+            background: rgba(33, 150, 243, 0.2);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #2196F3;
+            text-align: left;
+        }
+        
+        .auto-progress-indicator .indicator-title {
+            color: #2196F3;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .countdown {
+            font-size: 18px;
+            font-weight: bold;
+            color: #FFD700;
+            margin: 10px 0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* PWA 설치 모달 */
+        .install-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .install-modal.show {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .install-modal-content {
+            background: white;
+            border-radius: 25px;
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+            color: #333;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideInScale 0.4s ease-out;
+        }
+        
+        @keyframes slideInScale {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .install-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s;
+        }
+        
+        .install-modal-close:hover {
+            color: #333;
+        }
+        
+        .install-modal-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #20B2AA, #40E0D0);
+            border-radius: 25px;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(32, 178, 170, 0.3);
+        }
+        
+        .install-modal-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .install-modal-description {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .manual-instructions {
+            text-align: left;
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+        
+        .manual-instructions h4 {
+            color: #495057;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+        
+        .manual-instructions ol {
+            padding-left: 25px;
+        }
+        
+        .manual-instructions li {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+        
+        .game-url {
+            background: #e9ecef;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            color: #495057;
+            font-size: 13px;
+            margin: 8px 0;
+            word-break: break-all;
+            border-left: 4px solid #20B2AA;
+        }
+        
+        .footer {
+            width: 100%;
+            max-width: 500px;
+            margin-top: 30px;
+            padding: 30px 20px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            font-size: 12px;
+            opacity: 0.8;
+            line-height: 1.6;
+            flex-shrink: 0;
+        }
+        
+        .footer-section {
+            margin-bottom: 15px;
+        }
+        
+        .footer-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .footer-title {
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+                padding-bottom: 30px;
+            }
+            
+            .title {
+                font-size: 28px;
+            }
+            
+            .install-card {
+                padding: 25px 20px;
+                margin-bottom: 15px;
+            }
+            
+            .install-icon {
+                font-size: 50px;
+                margin-bottom: 15px;
+            }
+            
+            .install-title {
+                font-size: 20px;
+            }
+            
+            .install-description {
+                font-size: 14px;
+            }
+            
+            .game-container {
+                padding: 30px 20px;
+                margin-bottom: 20px;
+            }
+            
+            .completion-section {
+                padding: 30px 20px;
+                margin-bottom: 20px;
+            }
+            
+            .footer {
+                font-size: 11px;
+                padding: 20px 15px 15px;
+                margin-top: 20px;
+                max-width: 95%;
+            }
+            
+            .footer-section {
+                margin-bottom: 12px;
+            }
+            
+            .footer-title {
+                font-size: 12px;
+                margin-bottom: 6px;
+            }
+            
+            .install-modal-content {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+            
+            .install-modal-title {
+                font-size: 24px;
+            }
+            
+            .install-modal-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 40px;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">🧠 치매 예방 365</h1>
+        <p class="subtitle">순차적 두뇌 훈련으로 건강한 하루를 시작하세요!</p>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">게임 1/4 대기중</div>
+        </div>
+    </div>
+    
+    <!-- PWA 설치 카드 -->
+    <div class="install-card" id="installCard">
+        <div class="install-icon">📱</div>
+        <div class="install-title">앱으로 편리하게!</div>
+        <div class="install-description">
+            홈 화면에 치매 예방 365를 설치하여<br>
+            더 빠르고 편리하게 이용하세요!
+        </div>
+        
+        <div class="install-benefits">
+            <h4>🌟 설치 후 혜택</h4>
+            <div class="benefit-item">
+                <span class="benefit-icon">⚡</span>
+                <span>더 빠른 접속 속도</span>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">📱</span>
+                <span>앱처럼 편리한 사용</span>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">🔒</span>
+                <span>오프라인에서도 접근 가능</span>
+            </div>
+            <div class="benefit-item">
+                <span class="benefit-icon">🎯</span>
+                <span>원터치로 바로 실행</span>
+            </div>
+        </div>
+        
+        <div class="install-buttons">
+            <button class="install-btn" id="installAppBtn" onclick="showInstallModal()">
+                📲 지금 설치하기
+            </button>
+            <button class="install-btn secondary" onclick="dismissInstallCard()">
+                나중에 하기
+            </button>
+        </div>
+    </div>
+    
+    <div class="main-container">
+        <div class="game-container" id="gameContainer">
+            <div class="current-game-title" id="currentGameTitle">게임 1 - 기초 두뇌 훈련</div>
+            <div class="game-description" id="gameDescription">
+                첫 번째 두뇌 훈련 게임을 시작합니다.<br>
+                게임 완료 후 다음 단계로 진행하세요.
+            </div>
+            
+            <button class="game-launch-btn" id="launchBtn" onclick="launchCurrentGame()">
+                🎮 게임 시작하기
+            </button>
+            
+            <div class="game-status">
+                <div class="status-title">📋 게임 정보</div>
+                <div class="status-text" id="statusText">
+                    게임을 시작하면 새 창에서 열립니다.<br>
+                    게임 완료 후 이 창으로 돌아와서 "게임 완료" 버튼을 클릭하세요.
+                </div>
+            </div>
+            
+            <div class="auto-progress-indicator hidden" id="autoProgressIndicator">
+                <div class="indicator-title">🔄 다음 게임 준비 중...</div>
+                <div>잠시 후 다음 게임으로 이동합니다</div>
+                <div class="countdown" id="countdown">3초 후 진행</div>
+            </div>
+        </div>
+        
+        <div class="completion-section hidden" id="completionSection">
+            <div class="completion-title">🎉 모든 게임 완료!</div>
+            <div class="completion-text">
+                4단계의 두뇌 훈련을 모두 마치셨습니다!<br>
+                매일 꾸준히 하시면 두뇌 건강 유지에 큰 도움이 됩니다.<br>
+                오늘도 수고하셨어요! 🌟
+            </div>
+            <button class="restart-btn" onclick="restartAllGames()">
+                🔄 처음부터 다시 시작
+            </button>
+        </div>
+    </div>
+    
+    <!-- PWA 설치 모달 -->
+    <div class="install-modal" id="installModal">
+        <div class="install-modal-content">
+            <button class="install-modal-close" onclick="closeInstallModal()">×</button>
+            <div class="install-modal-icon">📱</div>
+            <div class="install-modal-title">치매 예방 365</div>
+            <div class="install-modal-description">
+                홈 화면에 앱을 추가하여 더 편리하게 이용하세요!
+            </div>
+            
+            <div id="deviceInstructions">
+                <!-- 기기별 설치 방법이 여기에 동적으로 삽입됩니다 -->
+            </div>
+            
+            <button class="install-btn" id="autoInstallBtn" onclick="attemptAutoInstall()" style="display: none;">
+                📱 자동으로 설치하기
+            </button>
+            
+            <button class="install-btn secondary" onclick="closeInstallModal()">
+                나중에 하기
+            </button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="footer-section">
+            <div class="footer-title">📄 저작권 안내</div>
+            <div>
+                본 웹사이트의 모든 콘텐츠는 저작권법에 의해 보호받습니다.<br>
+                무단 복제, 배포, 전송, 전시, 공연, 방송 또는 기타 방법으로<br>
+                저작권자의 동의 없이 사용할 수 없습니다.
+            </div>
+        </div>
+        
+        <div class="footer-section">
+            <div class="footer-title">👨‍💻 개발자 정보</div>
+            <div>
+                Developed by HJ Yoo<br>
+                Email: asitis7@hotmail.com
+            </div>
+        </div>
+        
+        <div class="footer-section">
+            <div class="footer-title">⚠️ 중요 안내</div>
+            <div>
+                본 게임은 파일럿 프로그램으로<br>
+                언제든 변경 및 삭제될 수 있습니다.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let gameState = {
+            currentGameIndex: 0,
+            totalGames: 4,
+            gameWindow: null,
+            games: [
+                {
+                    url: 'https://asitis7.github.io/Senior_Game/Senior_01_01.html',
+                    title: '게임 1 - 기초 두뇌 훈련',
+                    description: '두뇌 활동의 기초를 다지는 첫 번째 훈련입니다.'
+                },
+                {
+                    url: 'https://asitis7.github.io/Senior_Game/Senior_01_02.html',
+                    title: '게임 2 - 집중력 향상',
+                    description: '집중력과 주의력을 키우는 두 번째 훈련입니다.'
+                },
+                {
+                    url: 'https://asitis7.github.io/Senior_Game/Senior_01_03.html',
+                    title: '게임 3 - 기억력 강화',
+                    description: '기억력과 인지 능력을 강화하는 세 번째 훈련입니다.'
+                },
+                {
+                    url: 'https://asitis7.github.io/Senior_Game/Senior_01_04.html',
+                    title: '게임 4 - 종합 훈련',
+                    description: '모든 능력을 종합적으로 훈련하는 마지막 단계입니다.'
+                }
+            ]
+        };
+    </script>
+</body>
+</html>
+
+        // PWA 설치 관련 변수
+        let deferredPrompt;
+        let isInstalled = false;
+        
+        // 기기 정보 감지
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isIOS = /iphone|ipad|ipod/.test(userAgent);
+        const isAndroid = /android/.test(userAgent);
+        const isSafari = /safari/.test(userAgent) && !/chrome/.test(userAgent);
+        const isChrome = /chrome/.test(userAgent);
+        const isMobile = isIOS || isAndroid;
+
+        function updateGameInfo() {
+            const current = gameState.games[gameState.currentGameIndex];
+            
+            document.getElementById('currentGameTitle').textContent = current.title;
+            document.getElementById('gameDescription').innerHTML = current.description + 
+                '<br>게임 완료 후 다음 단계로 진행하세요.';
+            
+            const progress = ((gameState.currentGameIndex + 1) / gameState.totalGames) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            if (gameState.currentGameIndex < gameState.totalGames) {
+                document.getElementById('progressText').textContent = 
+                    `게임 ${gameState.currentGameIndex + 1}/${gameState.totalGames} 진행중`;
+            }
+        }
+
+        function launchCurrentGame() {
+            const current = gameState.games[gameState.currentGameIndex];
+            const launchBtn = document.getElementById('launchBtn');
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'game_start', {
+                    'game_name': current.title,
+                    'game_index': gameState.currentGameIndex + 1,
+                    'game_url': current.url
+                });
+            }
+            
+            gameState.gameWindow = window.open(
+                current.url, 
+                `game_${gameState.currentGameIndex}`, 
+                'width=800,height=600,scrollbars=yes,resizable=yes'
+            );
+            
+            if (!gameState.gameWindow || gameState.gameWindow.closed || typeof gameState.gameWindow.closed == 'undefined') {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'popup_blocked', {
+                        'game_name': current.title,
+                        'game_index': gameState.currentGameIndex + 1
+                    });
+                }
+                alert(`팝업이 차단되었습니다!\n\n브라우저 설정에서 팝업을 허용하거나,\n아래 주소를 새 탭에서 직접 열어주세요:\n\n${current.url}`);
+                return;
+            }
+            
+            launchBtn.textContent = '✅ 게임 완료';
+            launchBtn.onclick = markGameCompleted;
+            launchBtn.classList.add('completed');
+            
+            document.getElementById('statusText').innerHTML = 
+                '🎮 게임이 새 창에서 실행 중입니다.<br>' +
+                '게임을 완료한 후 아래 버튼을 클릭해주세요.';
+            
+            gameState.gameWindow.focus();
+        }
+
+        function markGameCompleted() {
+            const launchBtn = document.getElementById('launchBtn');
+            const current = gameState.games[gameState.currentGameIndex];
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'game_completed', {
+                    'game_name': current.title,
+                    'game_index': gameState.currentGameIndex + 1
+                });
+            }
+            
+            if (gameState.gameWindow && !gameState.gameWindow.closed) {
+                gameState.gameWindow.close();
+            }
+            
+            launchBtn.textContent = '🎉 완료!';
+            launchBtn.style.background = 'linear-gradient(135deg, #4CAF50, #66BB6A)';
+            launchBtn.onclick = null;
+            
+            setTimeout(() => {
+                proceedToNextGame();
+            }, 1500);
+        }
+
+        function proceedToNextGame() {
+            gameState.currentGameIndex++;
+            
+            if (gameState.currentGameIndex >= gameState.totalGames) {
+                showCompletionScreen();
+                return;
+            }
+            
+            showAutoProgressIndicator();
+        }
+
+        function showAutoProgressIndicator() {
+            const indicator = document.getElementById('autoProgressIndicator');
+            const countdown = document.getElementById('countdown');
+            
+            indicator.classList.remove('hidden');
+            
+            let seconds = 3;
+            countdown.textContent = `${seconds}초 후 진행`;
+            
+            const countdownInterval = setInterval(() => {
+                seconds--;
+                countdown.textContent = `${seconds}초 후 진행`;
+                
+                if (seconds <= 0) {
+                    clearInterval(countdownInterval);
+                    indicator.classList.add('hidden');
+                    loadNextGame();
+                }
+            }, 1000);
+        }
+
+        function loadNextGame() {
+            const launchBtn = document.getElementById('launchBtn');
+            launchBtn.textContent = '🎮 게임 시작하기';
+            launchBtn.onclick = launchCurrentGame;
+            launchBtn.classList.remove('completed');
+            launchBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+            
+            updateGameInfo();
+            
+            document.getElementById('statusText').innerHTML = 
+                '게임을 시작하면 새 창에서 열립니다.<br>' +
+                '게임 완료 후 이 창으로 돌아와서 "게임 완료" 버튼을 클릭하세요.';
+        }
+
+        function showCompletionScreen() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'all_games_completed', {
+                    'total_games': gameState.totalGames,
+                    'completion_time': new Date().toISOString()
+                });
+            }
+            
+            document.getElementById('gameContainer').classList.add('hidden');
+            document.getElementById('completionSection').classList.remove('hidden');
+            
+            document.getElementById('progressFill').style.width = '100%';
+            document.getElementById('progressText').textContent = '모든 게임 완료! 🎉';
+        }
+
+        function restartAllGames() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'restart_all_games', {
+                    'restart_time': new Date().toISOString()
+                });
+            }
+            
+            gameState.currentGameIndex = 0;
+            
+            document.getElementById('completionSection').classList.add('hidden');
+            document.getElementById('gameContainer').classList.remove('hidden');
+            
+            updateGameInfo();
+            
+            const launchBtn = document.getElementById('launchBtn');
+            launchBtn.textContent = '🎮 게임 시작하기';
+            launchBtn.onclick = launchCurrentGame;
+            launchBtn.classList.remove('completed');
+            launchBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+            
+            document.getElementById('statusText').innerHTML = 
+                '게임을 시작하면 새 창에서 열립니다.<br>' +
+                '게임 완료 후 이 창으로 돌아와서 "게임 완료" 버튼을 클릭하세요.';
+        }
+
+        // PWA 설치 관련 함수들
+        function checkPWAInstallation() {
+            // 이미 설치되었는지 확인
+            if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
+                isInstalled = true;
+                return;
+            }
+            
+            // 이미 설치 카드를 무시했는지 확인
+            if (localStorage.getItem('installCardDismissed') === 'true') {
+                return;
+            }
+            
+            // 모바일 기기에서만 설치 카드 표시
+            if (isMobile && !isInstalled) {
+                setTimeout(() => {
+                    document.getElementById('installCard').classList.add('show');
+                }, 1000); // 1초 후에 표시
+            }
+        }
+
+        function dismissInstallCard() {
+            document.getElementById('installCard').classList.remove('show');
+            localStorage.setItem('installCardDismissed', 'true');
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'install_card_dismissed', {
+                    'device_type': isIOS ? 'iOS' : (isAndroid ? 'Android' : 'Desktop')
+                });
+            }
+        }
+
+        function showInstallModal() {
+            const modal = document.getElementById('installModal');
+            const instructionsDiv = document.getElementById('deviceInstructions');
+            const autoInstallBtn = document.getElementById('autoInstallBtn');
+            
+            // 기기별 설치 방법 생성
+            let instructionsHTML = '';
+            
+            if (isIOS) {
+                instructionsHTML = `
+                    <div class="manual-instructions">
+                        <h4>📱 iPhone/iPad 설치 방법</h4>
+                        <ol>
+                            <li>Safari 브라우저로 아래의 페이지를 여세요
+                                <div class="game-url">https://asitis7.github.io/Senior_Game/For_Senior_Main_Menu.html</div>
+                            </li>
+                            <li>화면 아래쪽 <strong>공유 버튼 (⬆️)</strong>을 터치하세요</li>
+                            <li><strong>"홈 화면에 추가"</strong>를 찾아서 터치하세요</li>
+                            <li><strong>"추가"</strong> 버튼을 터치하면 설치 완료!</li>
+                        </ol>
+                    </div>
+                `;
+            } else if (isAndroid) {
+                if (isChrome) {
+                    // Chrome에서는 자동 설치 가능
+                    autoInstallBtn.style.display = 'block';
+                }
+                instructionsHTML = `
+                    <div class="manual-instructions">
+                        <h4>📱 Android 설치 방법</h4>
+                        <ol>
+                            <li>Chrome 브라우저로 이 페이지를 여세요</li>
+                            <li>화면 우상단 <strong>메뉴 버튼 (⋮)</strong>을 터치하세요</li>
+                            <li><strong>"홈 화면에 추가"</strong> 또는 <strong>"앱 설치"</strong>를 터치하세요</li>
+                            <li><strong>"추가"</strong> 또는 <strong>"설치"</strong> 버튼을 터치하면 완료!</li>
+                        </ol>
+                    </div>
+                `;
+            } else {
+                instructionsHTML = `
+                    <div class="manual-instructions">
+                        <h4>💻 컴퓨터에서 설치</h4>
+                        <p style="text-align: center; color: #666; font-size: 16px; padding: 20px;">
+                            모바일 기기에서 접속하시면<br>
+                            홈 화면에 앱을 설치할 수 있습니다.
+                        </p>
+                    </div>
+                `;
+            }
+            
+            instructionsDiv.innerHTML = instructionsHTML;
+            modal.classList.add('show');
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'install_modal_shown', {
+                    'device_type': isIOS ? 'iOS' : (isAndroid ? 'Android' : 'Desktop'),
+                    'user_agent': navigator.userAgent
+                });
+            }
+        }
+
+        function closeInstallModal() {
+            document.getElementById('installModal').classList.remove('show');
+        }
+
+        async function attemptAutoInstall() {
+            if (deferredPrompt) {
+                try {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'pwa_install_prompt_result', {
+                            'outcome': outcome,
+                            'device_type': 'Android'
+                        });
+                    }
+                    
+                    if (outcome === 'accepted') {
+                        closeInstallModal();
+                        dismissInstallCard();
+                        alert('🎉 앱이 성공적으로 설치되었습니다!\n홈 화면에서 "치매 예방 365" 아이콘을 찾아보세요.');
+                    }
+                    
+                    deferredPrompt = null;
+                } catch (error) {
+                    console.error('설치 오류:', error);
+                    alert('자동 설치에 실패했습니다. 위의 수동 설치 방법을 따라해주세요.');
+                }
+            } else {
+                alert('자동 설치가 지원되지 않습니다. 위의 수동 설치 방법을 따라해주세요.');
+            }
+        }
+
+        // PWA 관련 이벤트 리스너
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            if (isAndroid && isChrome) {
+                console.log('PWA 자동 설치 가능');
+            }
+        });
+
+        window.addEventListener('appinstalled', (evt) => {
+            isInstalled = true;
+            dismissInstallCard();
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'pwa_installed', {
+                    'device_type': isIOS ? 'iOS' : (isAndroid ? 'Android' : 'Desktop')
+                });
+            }
+            
+            // 설치 완료 알림
+            setTimeout(() => {
+                alert('🎉 설치가 완료되었습니다!\n홈 화면에서 "치매 예방 365" 아이콘으로 쉽게 접속하세요.');
+            }, 1000);
+        });
+
+        // 서비스 워커 등록
+        async function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    const swCode = `
+                        const CACHE_NAME = 'dementia-prevention-365-v1';
+                        const urlsToCache = [
+                            '/',
+                            'https://asitis7.github.io/Senior_Game/For_Senior_Main_Menu.html',
+                            'https://asitis7.github.io/Senior_Game/Senior_01_01.html',
+                            'https://asitis7.github.io/Senior_Game/Senior_01_02.html',
+                            'https://asitis7.github.io/Senior_Game/Senior_01_03.html',
+                            'https://asitis7.github.io/Senior_Game/Senior_01_04.html'
+                        ];
+                        
+                        self.addEventListener('install', (event) => {
+                            event.waitUntil(
+                                caches.open(CACHE_NAME)
+                                    .then((cache) => cache.addAll(urlsToCache))
+                            );
+                        });
+                        
+                        self.addEventListener('fetch', (event) => {
+                            event.respondWith(
+                                caches.match(event.request)
+                                    .then((response) => {
+                                        return response || fetch(event.request);
+                                    })
+                            );
+                        });
+                    `;
+                    
+                    const blob = new Blob([swCode], { type: 'application/javascript' });
+                    const swUrl = URL.createObjectURL(blob);
+                    
+                    const registration = await navigator.serviceWorker.register(swUrl);
+                    console.log('서비스 워커 등록 성공:', registration);
+                } catch (error) {
+                    console.log('서비스 워커 등록 실패:', error);
+                }
+            }
+        }
+
+        // 매니페스트 파일 동적 생성
+        function createManifest() {
+            const manifestData = {
+                "name": "치매 예방 365",
+                "short_name": "치매예방365",
+                "description": "치매 예방을 위한 365일 두뇌 훈련",
+                "start_url": "https://asitis7.github.io/Senior_Game/For_Senior_Main_Menu.html",
+                "display": "standalone",
+                "background_color": "#20B2AA",
+                "theme_color": "#20B2AA",
+                "orientation": "portrait",
+                "icons": [
+                    {
+                        "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzIwQjJBQTtzdG9wLW9wYWNpdHk6MSIgLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM0MEUwRDA7c3RvcC1vcGFjaXR5OjEiIC8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIHJ4PSIzMiIgZmlsbD0idXJsKCNiZykiLz48dGV4dCB4PSI5NiIgeT0iNjQiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzNiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7suYDrp6A8L3RleHQ+PHRleHQgeD0iOTYiIHk9IjEwNCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjM2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuyYiOuwqfCfkao8L3RleHQ+PHRleHQgeD0iOTYiIHk9IjE0NCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjU2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI0ZGNjk0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MzY1PC90ZXh0Pjwvc3ZnPg==",
+                        "sizes": "192x192",
+                        "type": "image/svg+xml",
+                        "purpose": "any maskable"
+                    },
+                    {
+                        "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzIwQjJBQTtzdG9wLW9wYWNpdHk6MSIgLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM0MEUwRDA7c3RvcC1vcGFjaXR5OjEiIC8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI4MCIgZmlsbD0idXJsKCNiZykiLz48dGV4dCB4PSIyNTYiIHk9IjE3MiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9Ijk2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuyvhOyWrA==</L3RleHQ+PHRleHQgeD0iMjU2IiB5PSIyNzYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5NiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7smIjrsKnwnZGqPC90ZXh0Pjx0ZXh0IHg9IjI1NiIgeT0iMzgwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQ0IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI0ZGNjk0NyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MzY1PC90ZXh0Pjwvc3ZnPg==",
+                        "sizes": "512x512",
+                        "type": "image/svg+xml",
+                        "purpose": "any maskable"
+                    }
+                ]
+            };
+            
+            const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+            const manifestUrl = URL.createObjectURL(manifestBlob);
+            
+            const manifestLink = document.createElement('link');
+            manifestLink.rel = 'manifest';
+            manifestLink.href = manifestUrl;
+            document.head.appendChild(manifestLink);
+        }
+
+        // 페이지 로드 시 초기화
+        window.onload = function() {
+            updateGameInfo();
+            checkPWAInstallation();
+            registerServiceWorker();
+            createManifest();
+        };
+
+        // 페이지 언로드 시 열린 게임 창 닫기
+        window.onbeforeunload = function() {
+            if (gameState.gameWindow && !gameState.gameWindow.closed) {
+                gameState.gameWindow.close();
+            }
+        };
