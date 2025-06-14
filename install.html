@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시니어 게임</title>
+    
+    <!-- PWA 메타 태그 -->
+    <meta name="theme-color" content="#4CAF50">
+    <meta name="description" content="시니어를 위한 게임">
+    
+    <!-- iOS 전용 메타 태그 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="시니어 게임">
+    
+    <!-- 매니페스트 파일 링크 -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- 파비콘 및 아이콘 -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Malgun Gothic', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .installer-container {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            padding: 50px 40px;
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+            position: relative;
+        }
+        
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border-radius: 25px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.3);
+        }
+        
+        h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .description {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 35px;
+            line-height: 1.5;
+        }
+        
+        .install-button {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 15px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .install-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(76, 175, 80, 0.4);
+        }
+        
+        .install-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .status-message {
+            font-size: 16px;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-info {
+            background: #cce7ff;
+            color: #004085;
+            border: 1px solid #99d3ff;
+        }
+        
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .manual-instructions {
+            display: none;
+            text-align: left;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .manual-instructions h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .manual-instructions ol {
+            padding-left: 20px;
+        }
+        
+        .manual-instructions li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .device-check {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 30px;
+            height: 30px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .skip-button {
+            background: transparent;
+            color: #666;
+            border: 2px solid #ddd;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .skip-button:hover {
+            background: #f8f9fa;
+            border-color: #adb5bd;
+        }
+        
+        @media (max-width: 500px) {
+            .installer-container {
+                padding: 30px 25px;
+            }
+            
+            .app-icon {
+                width: 100px;
+                height: 100px;
+                font-size: 60px;
+            }
+            
+            h1 {
+                font-size: 26px;
+            }
+            
+            .install-button {
+                font-size: 20px;
+                padding: 18px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="installer-container">
+        <div class="app-icon">🎮</div>
+        
+        <h1>시니어 게임</h1>
+        <p class="description">홈 화면에 게임을 설치하여<br>언제든지 쉽게 즐기세요!</p>
+        
+        <div class="device-check" id="deviceCheck">기기 확인 중...</div>
+        
+        <button class="install-button" id="installButton" onclick="installApp()">
+            📱 홈 화면에 설치하기
+        </button>
+        
+        <div class="loading-spinner" id="loadingSpinner"></div>
+        
+        <div class="status-message" id="statusMessage"></div>
+        
+        <div class="manual-instructions" id="manualInstructions">
+            <h3>📋 수동 설치 방법</h3>
+            <div id="iosInstructions" style="display: none;">
+                <strong>iPhone/iPad 설치 방법:</strong>
+                <ol>
+                    <li>Safari 브라우저로 이 페이지를 여세요</li>
+                    <li>화면 아래쪽 공유 버튼 (⬆️)을 터치하세요</li>
+                    <li>"홈 화면에 추가"를 찾아서 터치하세요</li>
+                    <li>"추가" 버튼을 터치하면 설치 완료!</li>
+                </ol>
+            </div>
+            <div id="androidInstructions" style="display: none;">
+                <strong>Android 설치 방법:</strong>
+                <ol>
+                    <li>Chrome 브라우저로 이 페이지를 여세요</li>
+                    <li>화면 우상단 메뉴 버튼 (⋮)을 터치하세요</li>
+                    <li>"홈 화면에 추가" 또는 "앱 설치"를 터치하세요</li>
+                    <li>"추가" 또는 "설치" 버튼을 터치하면 완료!</li>
+                </ol>
+            </div>
+        </div>
+        
+        <button class="skip-button" onclick="goToGame()">
+            설치 없이 바로 게임하기 →
+        </button>
+    </div>
+
+    <script>
+        // 게임 URL
+        const GAME_URL = 'https://asitis7.github.io/Senior_Game/For_Senior_Main_Menu.html';
+        
+        // PWA 설치 프롬프트
+        let deferredPrompt;
+        let isInstalled = false;
+        
+        // 기기 정보 감지
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isIOS = /iphone|ipad|ipod/.test(userAgent);
+        const isAndroid = /android/.test(userAgent);
+        const isSafari = /safari/.test(userAgent) && !/chrome/.test(userAgent);
+        const isChrome = /chrome/.test(userAgent);
+        
+        // 페이지 로드 시 초기화
+        window.addEventListener('load', function() {
+            checkDevice();
+            checkIfInstalled();
+            registerServiceWorker();
+        });
+        
+        // 기기 확인 및 UI 업데이트
+        function checkDevice() {
+            const deviceCheck = document.getElementById('deviceCheck');
+            
+            if (isIOS) {
+                deviceCheck.textContent = '📱 iPhone/iPad 감지됨';
+                if (!isSafari) {
+                    showManualInstructions('ios');
+                    showStatus('Safari 브라우저를 사용하시면 더 쉽게 설치할 수 있습니다.', 'warning');
+                }
+            } else if (isAndroid) {
+                deviceCheck.textContent = '📱 Android 기기 감지됨';
+                if (!isChrome) {
+                    showManualInstructions('android');
+                    showStatus('Chrome 브라우저를 사용하시면 더 쉽게 설치할 수 있습니다.', 'warning');
+                }
+            } else {
+                deviceCheck.textContent = '💻 컴퓨터에서 접속 중';
+                showStatus('모바일 기기에서 접속하시면 홈 화면에 설치할 수 있습니다.', 'info');
+            }
+        }
+        
+        // 이미 설치되었는지 확인
+        function checkIfInstalled() {
+            // PWA가 이미 설치되었는지 확인
+            if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) {
+                isInstalled = true;
+                showStatus('✅ 앱이 이미 설치되어 있습니다!', 'success');
+                document.getElementById('installButton').textContent = '🎮 게임 시작하기';
+                document.getElementById('installButton').onclick = goToGame;
+                return;
+            }
+            
+            // 브라우저 지원 여부 확인
+            if ('serviceWorker' in navigator && 'PushManager' in window) {
+                console.log('PWA 지원됨');
+            }
+        }
+        
+        // PWA 설치 프롬프트 이벤트 리스너
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('설치 프롬프트 준비됨');
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // 자동 설치 버튼 활성화
+            document.getElementById('installButton').disabled = false;
+            showStatus('✨ 자동 설치가 가능합니다!', 'success');
+        });
+        
+        // 앱 설치 함수
+        async function installApp() {
+            const button = document.getElementById('installButton');
+            const spinner = document.getElementById('loadingSpinner');
+            
+            // 이미 설치된 경우 게임으로 이동
+            if (isInstalled) {
+                goToGame();
+                return;
+            }
+            
+            // 로딩 시작
+            button.style.display = 'none';
+            spinner.style.display = 'block';
+            
+            // PWA 자동 설치 시도
+            if (deferredPrompt) {
+                try {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    
+                    if (outcome === 'accepted') {
+                        showStatus('🎉 설치가 완료되었습니다!', 'success');
+                        setTimeout(() => {
+                            goToGame();
+                        }, 2000);
+                    } else {
+                        showStatus('설치가 취소되었습니다. 수동으로 설치해주세요.', 'warning');
+                        showManualInstructions();
+                    }
+                    
+                    deferredPrompt = null;
+                } catch (error) {
+                    console.error('설치 오류:', error);
+                    showManualInstructions();
+                }
+            } else {
+                // 수동 설치 안내
+                showManualInstructions();
+            }
+            
+            // 로딩 종료
+            spinner.style.display = 'none';
+            button.style.display = 'block';
+        }
+        
+        // 수동 설치 안내 표시
+        function showManualInstructions(deviceType = null) {
+            const manualDiv = document.getElementById('manualInstructions');
+            const iosDiv = document.getElementById('iosInstructions');
+            const androidDiv = document.getElementById('androidInstructions');
+            
+            manualDiv.style.display = 'block';
+            
+            if (deviceType === 'ios' || (isIOS && !deviceType)) {
+                iosDiv.style.display = 'block';
+                androidDiv.style.display = 'none';
+            } else if (deviceType === 'android' || (isAndroid && !deviceType)) {
+                androidDiv.style.display = 'block';
+                iosDiv.style.display = 'none';
+            } else {
+                // 둘 다 표시
+                iosDiv.style.display = 'block';
+                androidDiv.style.display = 'block';
+            }
+            
+            showStatus('아래 안내를 따라 수동으로 설치해주세요.', 'info');
+        }
+        
+        // 상태 메시지 표시
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.textContent = message;
+            statusDiv.className = `status-message status-${type}`;
+            statusDiv.style.display = 'block';
+        }
+        
+        // 게임으로 이동
+        function goToGame() {
+            showStatus('게임으로 이동 중...', 'info');
+            setTimeout(() => {
+                window.location.href = GAME_URL;
+            }, 1000);
+        }
+        
+        // 서비스 워커 등록
+        async function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    // 인라인 서비스 워커 생성
+                    const swCode = `
+                        const CACHE_NAME = 'senior-game-v1';
+                        const urlsToCache = [
+                            '/',
+                            '${GAME_URL}'
+                        ];
+                        
+                        self.addEventListener('install', (event) => {
+                            event.waitUntil(
+                                caches.open(CACHE_NAME)
+                                    .then((cache) => cache.addAll(urlsToCache))
+                            );
+                        });
+                        
+                        self.addEventListener('fetch', (event) => {
+                            event.respondWith(
+                                caches.match(event.request)
+                                    .then((response) => {
+                                        return response || fetch(event.request);
+                                    })
+                            );
+                        });
+                    `;
+                    
+                    const blob = new Blob([swCode], { type: 'application/javascript' });
+                    const swUrl = URL.createObjectURL(blob);
+                    
+                    const registration = await navigator.serviceWorker.register(swUrl);
+                    console.log('서비스 워커 등록 성공:', registration);
+                } catch (error) {
+                    console.log('서비스 워커 등록 실패:', error);
+                }
+            }
+        }
+        
+        // 앱 설치 완료 이벤트
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('앱 설치 완료');
+            isInstalled = true;
+            showStatus('🎉 홈 화면에 성공적으로 설치되었습니다!', 'success');
+            setTimeout(() => {
+                goToGame();
+            }, 2000);
+        });
+        
+        // 매니페스트 파일을 동적으로 생성
+        const manifestData = {
+            "name": "시니어 게임",
+            "short_name": "시니어게임",
+            "description": "시니어를 위한 재미있는 게임",
+            "start_url": "/",
+            "display": "standalone",
+            "background_color": "#4CAF50",
+            "theme_color": "#4CAF50",
+            "orientation": "portrait",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIHJ4PSIzMiIgZmlsbD0iIzRDQUY1MCIvPjx0ZXh0IHg9Ijk2IiB5PSIxMjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI4MCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPvCfOK48L3RleHQ+PC9zdmc+",
+                    "sizes": "192x192",
+                    "type": "image/svg+xml",
+                    "purpose": "any maskable"
+                },
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI4MCIgZmlsbD0iIzRDQUY1MCIvPjx0ZXh0IHg9IjI1NiIgeT0iMzIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjIwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+8J84rjwvdGV4dD48L3N2Zz4=",
+                    "sizes": "512x512",
+                    "type": "image/svg+xml",
+                    "purpose": "any maskable"
+                }
+            ]
+        };
+        
+        // 매니페스트를 동적으로 생성하고 링크
+        const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+        const manifestUrl = URL.createObjectURL(manifestBlob);
+        document.querySelector('link[rel="manifest"]').href = manifestUrl;
+    </script>
+</body>
+</html>
