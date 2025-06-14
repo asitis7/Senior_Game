@@ -285,21 +285,23 @@
         // 기기 확인 및 UI 업데이트
         function checkDevice() {
             const deviceCheck = document.getElementById('deviceCheck');
+            const installButton = document.getElementById('installButton');
             
             if (isIOS) {
-                deviceCheck.textContent = '📱 iPhone/iPad 감지됨';
-                if (!isSafari) {
-                    showManualInstructions('ios');
-                    showStatus('Safari 브라우저를 사용하시면 더 쉽게 설치할 수 있습니다.', 'warning');
-                }
+                deviceCheck.textContent = '📱 iPhone/iPad - 수동 설치 필요';
+                installButton.textContent = '📋 설치 방법 보기';
+                showStatus('iOS에서는 Safari 공유 버튼을 통해 설치해야 합니다.', 'info');
             } else if (isAndroid) {
-                deviceCheck.textContent = '📱 Android 기기 감지됨';
-                if (!isChrome) {
-                    showManualInstructions('android');
-                    showStatus('Chrome 브라우저를 사용하시면 더 쉽게 설치할 수 있습니다.', 'warning');
+                deviceCheck.textContent = '📱 Android - 자동 설치 가능';
+                if (isChrome) {
+                    installButton.textContent = '📱 자동으로 설치하기';
+                } else {
+                    installButton.textContent = '📋 설치 방법 보기';
+                    showStatus('Chrome 브라우저를 사용하시면 자동 설치가 가능합니다.', 'warning');
                 }
             } else {
                 deviceCheck.textContent = '💻 컴퓨터에서 접속 중';
+                installButton.textContent = '📱 모바일에서 설치 가능';
                 showStatus('모바일 기기에서 접속하시면 홈 화면에 설치할 수 있습니다.', 'info');
             }
         }
@@ -343,11 +345,18 @@
                 return;
             }
             
-            // 로딩 시작
+            // iOS인 경우 바로 수동 설치 안내
+            if (isIOS) {
+                showManualInstructions('ios');
+                showStatus('👆 위의 안내를 따라 설치해주세요!', 'info');
+                return;
+            }
+            
+            // 로딩 시작 (Android만)
             button.style.display = 'none';
             spinner.style.display = 'block';
             
-            // PWA 자동 설치 시도
+            // PWA 자동 설치 시도 (Android Chrome)
             if (deferredPrompt) {
                 try {
                     deferredPrompt.prompt();
@@ -360,17 +369,18 @@
                         }, 2000);
                     } else {
                         showStatus('설치가 취소되었습니다. 수동으로 설치해주세요.', 'warning');
-                        showManualInstructions();
+                        showManualInstructions('android');
                     }
                     
                     deferredPrompt = null;
                 } catch (error) {
                     console.error('설치 오류:', error);
-                    showManualInstructions();
+                    showManualInstructions('android');
                 }
             } else {
-                // 수동 설치 안내
-                showManualInstructions();
+                // 수동 설치 안내 (Android)
+                showManualInstructions('android');
+                showStatus('Chrome 브라우저에서 접속하시면 자동 설치가 가능합니다.', 'warning');
             }
             
             // 로딩 종료
