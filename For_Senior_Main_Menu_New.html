@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시니어 두뇌운동 365 - 레벨별 통합 훈련</title>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PGX1LHBFHM"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-PGX1LHBFHM');
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .level-indicator {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .progress-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            border-radius: 6px;
+            transition: width 0.8s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            opacity: 0.8;
+            text-align: center;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .level-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .level-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .level-description {
+            font-size: 16px;
+            opacity: 0.9;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-card.completed {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+        }
+
+        .game-type-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .type-calculation { background: #FF6B35; color: white; }
+        .type-visual { background: #2196F3; color: white; }
+        .type-logic { background: #9C27B0; color: white; }
+        .type-language { background: #FF9800; color: white; }
+
+        .game-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .game-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .game-desc {
+            font-size: 13px;
+            opacity: 0.7;
+            line-height: 1.4;
+        }
+
+        .level-progress {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .level-progress-text {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .level-progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .level-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .next-level-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .next-level-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
+        }
+
+        .next-level-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .completion-section {
+            background: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .completion-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .completion-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.6);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .footer {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 30px;
+            padding: 30px 20px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            font-size: 12px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .footer-section {
+            margin-bottom: 15px;
+        }
+
+        .footer-title {
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .level-container {
+                padding: 30px 20px;
+            }
+            
+            .title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">🧠 시니어 두뇌운동 365</h1>
+        <p class="subtitle">레벨별 다양한 두뇌 훈련으로 건강한 인지력을 유지하세요!</p>
+        
+        <div class="level-indicator" id="levelIndicator">
+            🌱 Level 1 - 기초 레벨
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">전체 진행률: 0/16 완료</div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="level-container" id="levelContainer">
+            <div class="level-title" id="levelTitle">Level 1: 기초 레벨 🌱</div>
+            <div class="level-description" id="levelDescription">
+                다양한 기초 인지 능력을 훈련합니다. 각 타입의 게임을 경험해보세요!
+            </div>
+            
+            <div class="games-grid" id="gamesGrid">
+                <!-- 게임 카드들이 동적으로 생성됩니다 -->
+            </div>
+            
+            <div class="level-progress">
+                <div class="level-progress-text" id="levelProgressText">레벨 진행률: 0/4 완료</div>
+                <div class="level-progress-bar">
+                    <div class="level-progress-fill" id="levelProgressFill" style="width: 0%"></div>
+                </div>
+                <button class="next-level-btn" id="nextLevelBtn" onclick="goToNextLevel()" disabled>
+                    다음 레벨로 진행 🚀
+                </button>
+            </div>
+        </div>
+
+        <div class="completion-section hidden" id="completionSection">
+            <div class="completion-title">🎉 모든 레벨 완료!</div>
+            <div class="completion-text">
+                4단계 16개의 모든 두뇌 훈련을 완주하셨습니다!<br>
+                계산, 시각, 논리, 언어 영역의 균형잡힌 훈련을 통해<br>
+                종합적인 인지 능력을 향상시키셨어요. 정말 수고하셨습니다! 🌟
+            </div>
+            <button class="restart-btn" onclick="restartAllLevels()">
+                🔄 처음부터 다시 시작
+            </button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-section">
+            <div class="footer-title">📄 저작권 안내</div>
+            <div>
+                본 웹사이트의 모든 콘텐츠는 저작권법에 의해 보호받습니다.<br>
+                무단 복제, 배포, 전송, 전시, 공연, 방송 또는 기타 방법으로<br>
+                저작권자의 동의 없이 사용할 수 없습니다.
+            </div>
+        </div>
+        <div class="footer-section">
+            <div class="footer-title">👨‍💻 개발자 정보</div>
+            <div>
+                Developed by HJ Yoo<br>
+                Email: asitis7@hotmail.com
+            </div>
+        </div>
+        <div class="footer-section">
+            <div class="footer-title">⚠️ 중요 안내</div>
+            <div>
+                본 게임은 파일럿 프로그램으로<br>
+                언제든 변경 및 삭제될 수 있습니다.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let gameState = {
+            currentLevel: 0,
+            totalLevels: 4,
+            completedGames: new Set(),
+            levels: [
+                {
+                    id: 1,
+                    name: "기초 레벨",
+                    icon: "🌱",
+                    description: "다양한 기초 인지 능력을 훈련합니다. 각 타입의 게임을 경험해보세요!",
+                    games: [
+                        {
+                            id: "1-calc",
+                            name: "두자리 덧셈",
+                            type: "calculation",
+                            typeName: "계산형",
+                            icon: "➕",
+                            description: "10-99 숫자 덧셈으로 기본 계산력을 키워요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_01_01.html"
+                        },
+                        {
+                            id: "1-visual",
+                            name: "숫자 찾기 (1-25)",
+                            type: "visual",
+                            typeName: "시각형",
+                            icon: "👁️",
+                            description: "1-25 순서대로 클릭하여 시각적 탐색력을 향상시켜요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_02_01.html"
+                        },
+                        {
+                            id: "1-logic",
+                            name: "5×5 스도쿠",
+                            type: "logic",
+                            typeName: "논리형",
+                            icon: "🧩",
+                            description: "간단한 스도쿠로 기초 논리 사고력을 기워요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_03_01.html"
+                        },
+                        {
+                            id: "1-language",
+                            name: "기초 크로스워드",
+                            type: "language",
+                            typeName: "언어형",
+                            icon: "📝",
+                            description: "7×7 크로스워드로 기본 어휘력을 늘려요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_04_01.html"
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    name: "초급 레벨",
+                    icon: "🌿",
+                    description: "복합적 사고력을 개발합니다. 여러 영역의 능력을 동시에 활용해보세요!",
+                    games: [
+                        {
+                            id: "2-calc",
+                            name: "세자리 덧셈",
+                            type: "calculation",
+                            typeName: "계산형",
+                            icon: "➕",
+                            description: "100-999 숫자 덧셈으로 복합 계산력을 키워요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_01_02.html"
+                        },
+                        {
+                            id: "2-visual",
+                            name: "숫자 찾기 (26-50)",
+                            type: "visual",
+                            typeName: "시각형",
+                            icon: "👁️",
+                            description: "26-50 순서로 고급 시각 탐색력을 향상시켜요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_02_01.html"
+                        },
+                        {
+                            id: "2-logic",
+                            name: "빠진 숫자 찾기",
+                            type: "logic",
+                            typeName: "논리형",
+                            icon: "🧩",
+                            description: "3개→1개 역산으로 역방향 사고력을 기워요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_02_02.html"
+                        },
+                        {
+                            id: "2-language",
+                            name: "고급 크로스워드 1",
+                            type: "language",
+                            typeName: "언어형",
+                            icon: "📝",
+                            description: "9×9 크로스워드로 고급 어휘력을 늘려요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_04_02.html"
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    name: "중급 레벨",
+                    icon: "🌳",
+                    description: "체계적 문제 해결 능력을 강화합니다. 더 복잡한 과제에 도전해보세요!",
+                    games: [
+                        {
+                            id: "3-calc",
+                            name: "곱셈 게임",
+                            type: "calculation",
+                            typeName: "계산형",
+                            icon: "✖️",
+                            description: "2자리×1자리 곱셈으로 곱셈 연산력을 키워요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_01_03.html"
+                        },
+                        {
+                            id: "3-visual",
+                            name: "알파벳 순서",
+                            type: "visual",
+                            typeName: "시각형",
+                            icon: "🔤",
+                            description: "a-y, A-Y 순서로 문자 인식력을 향상시켜요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_02_04.html"
+                        },
+                        {
+                            id: "3-logic",
+                            name: "7×7 스도쿠",
+                            type: "logic",
+                            typeName: "논리형",
+                            icon: "🧩",
+                            description: "확장된 스도쿠로 복잡한 논리 추론력을 기워요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_03_02.html"
+                        },
+                        {
+                            id: "3-language",
+                            name: "고급 계산 퍼즐",
+                            type: "language",
+                            typeName: "통합형",
+                            icon: "🧮",
+                            description: "4개→1개 복합 계산으로 수리+언어 통합 사고력을 기워요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_02_03.html"
+                        }
+                    ]
+                },
+                {
+                    id: 4,
+                    name: "고급 레벨",
+                    icon: "🏆",
+                    description: "고도의 인지 능력을 통합합니다. 최고 수준의 두뇌 도전에 임하세요!",
+                    games: [
+                        {
+                            id: "4-calc",
+                            name: "나눗셈 게임",
+                            type: "calculation",
+                            typeName: "계산형",
+                            icon: "➗",
+                            description: "3자리÷1자리 나눗셈으로 고급 연산력을 키워요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_01_04.html"
+                        },
+                        {
+                            id: "4-visual",
+                            name: "종합 패턴 인식",
+                            type: "visual",
+                            typeName: "시각형",
+                            icon: "🎯",
+                            description: "복합 시각 패턴으로 통합적 시각 처리력을 향상시켜요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_02_01.html"
+                        },
+                        {
+                            id: "4-logic",
+                            name: "9×9 스도쿠",
+                            type: "logic",
+                            typeName: "논리형",
+                            icon: "🧩",
+                            description: "정통 스도쿠로 최고급 논리 사고력을 기워요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_03_03.html"
+                        },
+                        {
+                            id: "4-language",
+                            name: "최고급 크로스워드",
+                            type: "language",
+                            typeName: "언어형",
+                            icon: "📝",
+                            description: "9×9 고급 크로스워드로 창의적 언어 사고력을 기워요",
+                            url: "https://asitis7.github.io/Senior_Game/Senior_04_03.html"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        function renderLevel() {
+            const level = gameState.levels[gameState.currentLevel];
+            
+            // 헤더 업데이트
+            document.getElementById('levelIndicator').textContent = 
+                `${level.icon} Level ${level.id} - ${level.name}`;
+            document.getElementById('levelTitle').textContent = 
+                `Level ${level.id}: ${level.name} ${level.icon}`;
+            document.getElementById('levelDescription').textContent = level.description;
+            
+            // 게임 그리드 렌더링
+            const gamesGrid = document.getElementById('gamesGrid');
+            gamesGrid.innerHTML = '';
+            
+            level.games.forEach(game => {
+                const gameCard = document.createElement('div');
+                gameCard.className = `game-card ${gameState.completedGames.has(game.id) ? 'completed' : ''}`;
+                gameCard.onclick = () => playGame(game);
+                
+                const typeClass = `type-${game.type}`;
+                
+                gameCard.innerHTML = `
+                    <div class="game-type-badge ${typeClass}">${game.typeName}</div>
+                    <span class="game-icon">${game.icon}</span>
+                    <div class="game-name">${game.name}</div>
+                    <div class="game-desc">${game.description}</div>
+                    ${gameState.completedGames.has(game.id) ? '<div style="margin-top: 10px;">✅ 완료</div>' : ''}
+                `;
+                
+                gamesGrid.appendChild(gameCard);
+            });
+            
+            updateProgress();
+        }
+
+        function playGame(game) {
+            // Google Analytics 이벤트 추적
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'game_start', {
+                    'game_name': game.name,
+                    'game_type': game.type,
+                    'level': gameState.currentLevel + 1,
+                    'game_url': game.url
+                });
+            }
+
+            // 현재 화면에서 iframe으로 게임 로드
+            const gameContainer = document.createElement('div');
+            gameContainer.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            `;
+
+            const gameFrame = document.createElement('iframe');
+            gameFrame.src = game.url;
+            gameFrame.style.cssText = `
+                width: 100%;
+                height: 100%;
+                max-width: 900px;
+                max-height: 700px;
+                border: none;
+                border-radius: 15px;
+                background: white;
+            `;
+
+            const closeButton = document.createElement('button');
+            closeButton.textContent = '✅ 게임 완료';
+            closeButton.style.cssText = `
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: #4CAF50;
+                color: white;
+                border: none;
+                padding: 15px 25px;
+                border-radius: 25px;
+                font-size: 16px;
+                font-weight: bold;
+                cursor: pointer;
+                z-index: 1001;
+                box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            `;
+
+            closeButton.onclick = () => {
+                completeGame(game.id);
+                document.body.removeChild(gameContainer);
+            };
+
+            gameContainer.appendChild(gameFrame);
+            gameContainer.appendChild(closeButton);
+            document.body.appendChild(gameContainer);
+        }
+
+        function completeGame(gameId) {
+            gameState.completedGames.add(gameId);
+            
+            // Google Analytics 완료 이벤트 추적
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'game_completed', {
+                    'game_id': gameId,
+                    'level': gameState.currentLevel + 1
+                });
+            }
+            
+            renderLevel();
+            
+            // 레벨 완료 체크
+            const currentLevel = gameState.levels[gameState.currentLevel];
+            const levelCompleted = currentLevel.games.every(game => 
+                gameState.completedGames.has(game.id)
+            );
+            
+            if (levelCompleted) {
+                document.getElementById('nextLevelBtn').disabled = false;
+                
+                // 자동 진행 (선택사항)
+                setTimeout(() => {
+                    if (gameState.currentLevel < gameState.totalLevels - 1) {
+                        // 다음 레벨이 있는 경우
+                        const shouldProceed = confirm('이 레벨을 완료했습니다! 다음 레벨로 진행하시겠습니까?');
+                        if (shouldProceed) {
+                            goToNextLevel();
+                        }
+                    } else {
+                        // 모든 레벨 완료
+                        setTimeout(() => showCompletion(), 1000);
+                    }
+                }, 1500);
+            }
+        }
+
+        function updateProgress() {
+            const currentLevel = gameState.levels[gameState.currentLevel];
+            const levelCompleted = currentLevel.games.filter(game => 
+                gameState.completedGames.has(game.id)
+            ).length;
+            
+            // 레벨 진행률
+            const levelProgress = (levelCompleted / currentLevel.games.length) * 100;
+            document.getElementById('levelProgressFill').style.width = `${levelProgress}%`;
+            document.getElementById('levelProgressText').textContent = 
+                `레벨 진행률: ${levelCompleted}/${currentLevel.games.length} 완료`;
+            
+            // 전체 진행률
+            const totalGames = gameState.levels.reduce((sum, level) => sum + level.games.length, 0);
+            const totalCompleted = gameState.completedGames.size;
+            const totalProgress = (totalCompleted / totalGames) * 100;
+            
+            document.getElementById('progressFill').style.width = `${totalProgress}%`;
+            document.getElementById('progressText').textContent = 
+                `전체 진행률: ${totalCompleted}/${totalGames} 완료`;
+        }
+
+        function goToNextLevel() {
+            if (gameState.currentLevel < gameState.totalLevels - 1) {
+                gameState.currentLevel++;
+                document.getElementById('nextLevelBtn').disabled = true;
+                renderLevel();
+                
+                // Google Analytics 레벨 진행 이벤트
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'level_advance', {
+                        'new_level': gameState.currentLevel + 1
+                    });
+                }
+            } else {
+                showCompletion();
+            }
+        }
+
+        function showCompletion() {
+            document.getElementById('levelContainer').classList.add('hidden');
+            document.getElementById('completionSection').classList.remove('hidden');
+            
+            // 진행률 100% 설정
+            document.getElementById('progressFill').style.width = '100%';
+            document.getElementById('progressText').textContent = '모든 게임 완료! 🎉';
+            
+            // Google Analytics 전체 완료 이벤트
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'all_levels_completed', {
+                    'total_games': gameState.completedGames.size,
+                    'completion_time': new Date().toISOString()
+                });
+            }
+        }
+
+        function restartAllLevels() {
+            // Google Analytics 재시작 이벤트
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'restart_all_levels', {
+                    'restart_time': new Date().toISOString()
+                });
+            }
+            
+            gameState.currentLevel = 0;
+            gameState.completedGames.clear();
+            
+            // 화면 복원
+            document.getElementById('completionSection').classList.add('hidden');
+            document.getElementById('levelContainer').classList.remove('hidden');
+            
+            renderLevel();
+        }
+
+        // 페이지 로드 시 초기화
+        window.onload = function() {
+            renderLevel();
+        };
+
+        // 키보드 단축키 (ESC로 게임 창 닫기)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const gameContainers = document.querySelectorAll('div[style*="position: fixed"]');
+                gameContainers.forEach(container => {
+                    if (container.style.zIndex === '1000') {
+                        container.remove();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
