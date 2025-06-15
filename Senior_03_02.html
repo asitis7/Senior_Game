@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시니어 두뇌 운동 365 - 3단계 두 번째 게임</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.3em;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .stage-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 20px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            backdrop-filter: blur(10px);
+            font-size: 1.1em;
+        }
+
+        .difficulty-badge {
+            background: #ff6b35;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 18px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .game-container {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            max-width: 580px;
+            width: 100%;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .game-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .difficulty-info {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border: 2px solid #ffc107;
+            color: #856404;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            font-size: 0.9em;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .game-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2196F3;
+            margin-bottom: 3px;
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .progress-container {
+            margin-bottom: 18px;
+        }
+
+        .progress-label {
+            text-align: center;
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+
+        .sudoku-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .sudoku-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: #333;
+            border: 3px solid #333;
+            border-radius: 10px;
+            padding: 4px;
+        }
+
+        .sudoku-cell {
+            width: 42px;
+            height: 42px;
+            background: white;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .sudoku-cell:hover {
+            background: #e3f2fd;
+            transform: scale(1.08);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+
+        .sudoku-cell.given {
+            background: linear-gradient(135deg, #f5f5f5, #eeeeee);
+            color: #333;
+            cursor: not-allowed;
+            font-weight: 900;
+        }
+
+        .sudoku-cell.given:hover {
+            transform: none;
+            background: linear-gradient(135deg, #f5f5f5, #eeeeee);
+        }
+
+        .sudoku-cell.selected {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            border-color: #0d47a1;
+            box-shadow: 0 0 12px rgba(33, 150, 243, 0.6);
+            transform: scale(1.1);
+        }
+
+        .sudoku-cell.error {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            color: #d32f2f;
+            border-color: #d32f2f;
+            animation: shake 0.6s ease-in-out;
+        }
+
+        .sudoku-cell.hint {
+            background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+            color: #2e7d32;
+            border-color: #4caf50;
+            animation: glow 1.5s ease-in-out;
+        }
+
+        .sudoku-cell.same-number {
+            background: linear-gradient(135deg, #fff3e0, #ffcc02);
+            border-color: #ff9800;
+        }
+
+        .sudoku-cell.related {
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            border-color: #9c27b0;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-2px); }
+            40% { transform: translateX(2px); }
+            60% { transform: translateX(-2px); }
+            80% { transform: translateX(2px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(76, 175, 80, 0.3); }
+            50% { box-shadow: 0 0 15px rgba(76, 175, 80, 0.8); }
+        }
+
+        .number-pad {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin: 20px 0;
+            max-width: 420px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .number-btn {
+            padding: 12px 8px;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 3px 6px rgba(33, 150, 243, 0.3);
+        }
+
+        .number-btn:hover {
+            background: linear-gradient(135deg, #1976D2, #1565C0);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(33, 150, 243, 0.4);
+        }
+
+        .number-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(33, 150, 243, 0.3);
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .control-btn {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.95em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+
+        .new-game-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .hint-btn {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+        }
+
+        .clear-btn {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+        }
+
+        .check-btn {
+            background: linear-gradient(135deg, #9C27B0, #7B1FA2);
+            color: white;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.3);
+        }
+
+        .control-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .success-message {
+            text-align: center;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-size: 1.2em;
+            display: none;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+            animation: bounceIn 0.8s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .tips-section {
+            background: #e3f2fd;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .tips-title {
+            font-weight: bold;
+            color: #1976D2;
+            margin-bottom: 6px;
+            font-size: 0.95em;
+        }
+
+        .tips-content {
+            font-size: 0.85em;
+            color: #555;
+            line-height: 1.3;
+        }
+
+        .level-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
+        .level-step {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .level-step.completed {
+            background: #4CAF50;
+            transform: scale(1.2);
+        }
+
+        .level-step.current {
+            background: #FF9800;
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.6);
+        }
+
+        @media (max-width: 600px) {
+            .sudoku-cell {
+                width: 35px;
+                height: 35px;
+                font-size: 1em;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .game-container {
+                padding: 20px;
+            }
+
+            .number-btn {
+                padding: 10px 6px;
+                font-size: 1em;
+            }
+
+            .game-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .number-pad {
+                max-width: 350px;
+                gap: 6px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .sudoku-cell {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9em;
+            }
+
+            .number-pad {
+                max-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧠 시니어 두뇌 운동 365</h1>
+        <div class="stage-info">
+            <strong>3단계 두 번째 게임</strong>
+        </div>
+        <div class="level-indicator">
+            <div class="level-step completed" title="5×5 완료"></div>
+            <div class="level-step current" title="7×7 진행중"></div>
+            <div class="level-step" title="9×9 대기중"></div>
+        </div>
+        <div class="difficulty-badge">중간 레벨</div>
+    </div>
+
+    <div class="game-container">
+        <div class="game-header">
+            <div class="game-title">7×7 스도쿠 (중간 레벨)</div>
+            <div class="difficulty-info">
+                <strong>🚀 다음 단계 도전!</strong><br>
+                7×7 그리드로 한층 업그레이드된 두뇌 운동!
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-label">게임 진행도</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="game-stats">
+            <div class="stat">
+                <div class="stat-value" id="timeValue">00:00</div>
+                <div class="stat-label">경과 시간</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="hintValue">3</div>
+                <div class="stat-label">남은 힌트</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="errorValue">0</div>
+                <div class="stat-label">오류 횟수</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="completedValue">0%</div>
+                <div class="stat-label">완성도</div>
+            </div>
+        </div>
+
+        <div class="sudoku-container">
+            <div class="sudoku-grid" id="sudokuGrid"></div>
+        </div>
+
+        <div class="number-pad" id="numberPad"></div>
+
+        <div class="controls">
+            <button class="control-btn new-game-btn" onclick="newGame()">🎮 새 게임</button>
+            <button class="control-btn hint-btn" onclick="getHint()" id="hintBtn">💡 힌트</button>
+            <button class="control-btn check-btn" onclick="checkSolution()">🔍 검사</button>
+            <button class="control-btn clear-btn" onclick="clearCell()">🗑️ 지우기</button>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            🎉 축하합니다! 7×7 중간 레벨을 완성하셨습니다! 🎉<br>
+            <small style="font-size: 0.8em; margin-top: 8px; display: block;">
+                이제 9×9 최종 단계에 도전해보세요!
+            </small>
+        </div>
+
+        <div class="tips-section">
+            <div class="tips-title">🎯 7×7 게임 팁</div>
+            <div class="tips-content">
+                • 각 행, 열에 1-7 숫자가 한 번씩만 들어갑니다<br>
+                • 키보드 1-7 숫자키로도 입력 가능합니다<br>
+                • 같은 숫자와 관련 셀이 하이라이트됩니다<br>
+                • 중간 레벨: 힌트 3개로 전략적 사고가 필요합니다!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedCell = null;
+        let gameGrid = [];
+        let solutionGrid = [];
+        let startTime = null;
+        let timerInterval = null;
+        let hintsRemaining = 3; // 7×7는 힌트 3개
+        let errorCount = 0;
+        let totalCells = 49; // 7×7 = 49
+        let filledCells = 0;
+
+        // 게임 초기화
+        function initGame() {
+            generatePuzzle();
+            createGrid();
+            createNumberPad();
+            startTimer();
+            hintsRemaining = 3;
+            errorCount = 0;
+            updateStats();
+            updateProgress();
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        // 퍼즐 생성 (7×7 중간 레벨)
+        function generatePuzzle() {
+            gameGrid = [];
+            solutionGrid = [];
+            filledCells = 0;
+
+            // 해답 그리드 생성
+            generateSolutionGrid();
+            
+            // 게임 그리드 생성 (중간 레벨: 32-38% 미리 채움)
+            const fillRate = 0.32 + Math.random() * 0.06; // 32-38%
+            
+            for (let i = 0; i < 7; i++) {
+                gameGrid[i] = [];
+                for (let j = 0; j < 7; j++) {
+                    if (Math.random() < fillRate) {
+                        gameGrid[i][j] = solutionGrid[i][j];
+                        filledCells++;
+                    } else {
+                        gameGrid[i][j] = 0;
+                    }
+                }
+            }
+
+            // 최소 힌트 보장 및 대칭성 고려
+            ensureMinimumClues();
+            addSymmetricClues();
+        }
+
+        // 해답 그리드 생성
+        function generateSolutionGrid() {
+            // 7×7 라틴 사각형 생성
+            for (let i = 0; i < 7; i++) {
+                solutionGrid[i] = [];
+                for (let j = 0; j < 7; j++) {
+                    solutionGrid[i][j] = ((i + j) % 7) + 1;
+                }
+            }
+
+            // 복잡한 패턴을 위해 섞기
+            shuffleGrid();
+        }
+
+        // 그리드 섞기 (7×7 최적화)
+        function shuffleGrid() {
+            // 행 섞기
+            for (let times = 0; times < 20; times++) {
+                const row1 = Math.floor(Math.random() * 7);
+                const row2 = Math.floor(Math.random() * 7);
+                [solutionGrid[row1], solutionGrid[row2]] = [solutionGrid[row2], solutionGrid[row1]];
+            }
+
+            // 열 섞기
+            for (let times = 0; times < 20; times++) {
+                const col1 = Math.floor(Math.random() * 7);
+                const col2 = Math.floor(Math.random() * 7);
+                
+                for (let i = 0; i < 7; i++) {
+                    [solutionGrid[i][col1], solutionGrid[i][col2]] = [solutionGrid[i][col2], solutionGrid[i][col1]];
+                }
+            }
+
+            // 숫자 재배치
+            const numbers = [1, 2, 3, 4, 5, 6, 7];
+            const shuffled = [...numbers].sort(() => Math.random() - 0.5);
+            
+            for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 7; j++) {
+                    const oldNum = solutionGrid[i][j];
+                    solutionGrid[i][j] = shuffled[oldNum - 1];
+                }
+            }
+        }
+
+        // 최소 힌트 보장
+        function ensureMinimumClues() {
+            let currentFilled = 0;
+            for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 7; j++) {
+                    if (gameGrid[i][j] !== 0) currentFilled++;
+                }
+            }
+
+            // 최소 14개는 채워져 있어야 함 (7×7의 약 28%)
+            const minClues = 14;
+            if (currentFilled < minClues) {
+                const needMore = minClues - currentFilled;
+                for (let added = 0; added < needMore; added++) {
+                    let i, j;
+                    let attempts = 0;
+                    do {
+                        i = Math.floor(Math.random() * 7);
+                        j = Math.floor(Math.random() * 7);
+                        attempts++;
+                    } while (gameGrid[i][j] !== 0 && attempts < 100);
+                    
+                    if (attempts < 100) {
+                        gameGrid[i][j] = solutionGrid[i][j];
+                        filledCells++;
+                    }
+                }
+            }
+        }
+
+        // 대칭적 힌트 추가
+        function addSymmetricClues() {
+            // 중앙 대칭으로 몇 개 힌트 추가
+            for (let attempts = 0; attempts < 5; attempts++) {
+                const i = Math.floor(Math.random() * 7);
+                const j = Math.floor(Math.random() * 7);
+                const symI = 6 - i;
+                const symJ = 6 - j;
+                
+                if (gameGrid[i][j] === 0 && gameGrid[symI][symJ] === 0) {
+                    gameGrid[i][j] = solutionGrid[i][j];
+                    gameGrid[symI][symJ] = solutionGrid[symI][symJ];
+                    filledCells += 2;
+                }
+            }
+        }
+
+        // 그리드 생성
+        function createGrid() {
+            const grid = document.getElementById('sudokuGrid');
+            grid.innerHTML = '';
+            
+            for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 7; j++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'sudoku-cell';
+                    cell.dataset.row = i;
+                    cell.dataset.col = j;
+                    
+                    if (gameGrid[i][j] !== 0) {
+                        cell.textContent = gameGrid[i][j];
+                        cell.classList.add('given');
+                    }
+                    
+                    cell.addEventListener('click', () => selectCell(cell));
+                    grid.appendChild(cell);
+                }
+            }
+        }
+
+        // 숫자 패드 생성
+        function createNumberPad() {
+            const pad = document.getElementById('numberPad');
+            pad.innerHTML = '';
+            
+            for (let i = 1; i <= 7; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'number-btn';
+                btn.textContent = i;
+                btn.addEventListener('click', () => placeNumber(i));
+                pad.appendChild(btn);
+            }
+        }
+
+        // 셀 선택
+        function selectCell(cell) {
+            if (cell.classList.contains('given')) return;
+            
+            // 이전 선택 해제
+            document.querySelectorAll('.sudoku-cell').forEach(c => {
+                c.classList.remove('selected', 'same-number', 'related');
+            });
+            
+            selectedCell = cell;
+            cell.classList.add('selected');
+            
+            const row = parseInt(cell.dataset.row);
+            const col = parseInt(cell.dataset.col);
+            
+            // 같은 숫자 하이라이트
+            const cellValue = cell.textContent;
+            if (cellValue) {
+                highlightSameNumbers(cellValue);
+            }
+            
+            // 같은 행, 열 하이라이트
+            highlightRelatedCells(row, col);
+        }
+
+        // 같은 숫자 하이라이트
+        function highlightSameNumbers(value) {
+            document.querySelectorAll('.sudoku-cell').forEach(cell => {
+                if (cell.textContent === value && !cell.classList.contains('selected')) {
+                    cell.classList.add('same-number');
+                }
+            });
+        }
+
+        // 관련 셀 하이라이트 (같은 행, 열)
+        function highlightRelatedCells(row, col) {
+            document.querySelectorAll('.sudoku-cell').forEach(cell => {
+                const cellRow = parseInt(cell.dataset.row);
+                const cellCol = parseInt(cell.dataset.col);
+                
+                if ((cellRow === row || cellCol === col) && 
+                    !cell.classList.contains('selected') && 
+                    !cell.classList.contains('same-number')) {
+                    cell.classList.add('related');
+                }
+            });
+        }
+
+        // 숫자 배치
+        function placeNumber(num) {
+            if (!selectedCell || selectedCell.classList.contains('given')) return;
+            
+            const row = parseInt(selectedCell.dataset.row);
+            const col = parseInt(selectedCell.dataset.col);
+            
+            // 이전 값 처리
+            if (gameGrid[row][col] === 0) {
+                filledCells++;
+            }
+            
+            selectedCell.textContent = num;
+            gameGrid[row][col] = num;
+            
+            // 오류 체크
+            const conflicts = findConflicts(row, col, num);
+            
+            if (conflicts.length > 0) {
+                selectedCell.classList.add('error');
+                errorCount++;
+                updateStats();
+                
+                // 충돌하는 셀들도 표시
+                conflicts.forEach(pos => {
+                    const conflictCell = document.querySelector(`[data-row="${pos.row}"][data-col="${pos.col}"]`);
+                    if (conflictCell && !conflictCell.classList.contains('given')) {
+                        conflictCell.classList.add('error');
+                    }
+                });
+                
+                setTimeout(() => {
+                    document.querySelectorAll('.sudoku-cell').forEach(c => {
+                        c.classList.remove('error');
+                    });
+                }, 2500);
+            }
+            
+            updateProgress();
+            
+            // 하이라이트 업데이트
+            highlightSameNumbers(num.toString());
+            highlightRelatedCells(row, col);
+            
+            // 게임 완료 체크
+            if (isGameComplete()) {
+                gameComplete();
+            }
+        }
+
+        // 충돌 찾기
+        function findConflicts(row, col, num) {
+            const conflicts = [];
+            
+            // 행 체크
+            for (let j = 0; j < 7; j++) {
+                if (j !== col && gameGrid[row][j] === num) {
+                    conflicts.push({row, col: j});
+                }
+            }
+            
+            // 열 체크
+            for (let i = 0; i < 7; i++) {
+                if (i !== row && gameGrid[i][col] === num) {
+                    conflicts.push({row: i, col});
+                }
+            }
+            
+            return conflicts;
+        }
+
+        // 진행도 업데이트
+        function updateProgress() {
+            let currentFilled = 0;
+            for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 7; j++) {
+                    if (gameGrid[i][j] !== 0) currentFilled++;
+                }
+            }
+            
+            const progress = Math.round((currentFilled / totalCells) * 100);
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('completedValue').textContent = progress + '%';
+        }
+
+        // 게임 완료 체크
+        function isGameComplete() {
+            for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 7; j++) {
+                    if (gameGrid[i][j] === 0) return false;
+                    if (findConflicts(i, j, gameGrid[i][j]).length > 0) return false;
+                }
+            }
+            return true;
+        }
+
+        // 해답 검사
+        function checkSolution() {
+            let errors = 0;
+            
+            document.querySelectorAll('.sudoku-cell').forEach(cell => {
+                cell.classList.remove('error');
+            });
+            
+            for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 7; j++) {
+                    if (gameGrid[i][j] !== 0) {
+                        const conflicts = findConflicts(i, j, gameGrid[i][j]);
+                        if (conflicts.length > 0) {
+                            const cell = document.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+                            cell.classList.add('error');
+                            errors++;
+                        }
+                    }
+                }
+            }
+            
+            if (errors === 0) {
+                alert('✅ 완벽합니다! 현재까지 오류가 없습니다.');
+            } else {
+                alert(`❌ ${errors}개의 오류가 발견되었습니다. 빨간색 셀을 확인해주세요.`);
+            }
+        }
+
+        // 게임 완료
+        function gameComplete() {
+            clearInterval(timerInterval);
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // 레벨 표시기 업데이트
+            document.querySelectorAll('.level-step')[1].classList.remove('current');
+            document.querySelectorAll('.level-step')[1].classList.add('completed');
+            
+            // 완료 애니메이션 (7×7용 최적화)
+            document.querySelectorAll('.sudoku-cell').forEach((cell, index) => {
+                setTimeout(() => {
+                    cell.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+                    cell.style.color = 'white';
+                    cell.style.transform = 'scale(1.1)';
+                }, index * 25); // 7×7는 셀이 많아서 속도 조정
+            });
+            
+            setTimeout(() => {
+                alert('🎉 축하합니다! 7×7 중간 레벨 완성! 이제 9×9 최종 단계에 도전해보세요!');
+            }, 1800);
+        }
+
+        // 스마트 힌트 제공 (7×7 최적화)
+        function getHint() {
+            if (hintsRemaining <= 0) {
+                alert('힌트를 모두 사용하셨습니다.');
+                return;
+            }
+            
+            const candidates = [];
+            
+            // 가장 제약이 많은 빈 셀 찾기
+            for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 7; j++) {
+                    if (gameGrid[i][j] === 0) {
+                        const possibleNumbers = getPossibleNumbers(i, j);
+                        candidates.push({
+                            row: i, 
+                            col: j, 
+                            possibilities: possibleNumbers.length,
+                            numbers: possibleNumbers
+                        });
+                    }
+                }
+            }
+            
+            if (candidates.length === 0) return;
+            
+            // 가능한 숫자가 가장 적은 셀 선택 (더 전략적)
+            candidates.sort((a, b) => a.possibilities - b.possibilities);
+            const targetCell = candidates[0];
+            
+            if (targetCell.numbers.length > 0) {
+                const row = targetCell.row;
+                const col = targetCell.col;
+                
+                gameGrid[row][col] = solutionGrid[row][col];
+                filledCells++;
+                
+                const cellElement = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+                cellElement.textContent = solutionGrid[row][col];
+                cellElement.classList.add('hint');
+                
+                setTimeout(() => {
+                    cellElement.classList.remove('hint');
+                    cellElement.classList.add('given');
+                }, 3500);
+                
+                hintsRemaining--;
+                updateStats();
+                updateProgress();
+                
+                if (isGameComplete()) {
+                    gameComplete();
+                }
+            }
+        }
+
+        // 가능한 숫자들 찾기
+        function getPossibleNumbers(row, col) {
+            const possible = [];
+            
+            for (let num = 1; num <= 7; num++) {
+                if (findConflicts(row, col, num).length === 0) {
+                    possible.push(num);
+                }
+            }
+            
+            return possible;
+        }
+
+        // 셀 지우기
+        function clearCell() {
+            if (!selectedCell || selectedCell.classList.contains('given')) return;
+            
+            const row = parseInt(selectedCell.dataset.row);
+            const col = parseInt(selectedCell.dataset.col);
+            
+            if (gameGrid[row][col] !== 0) {
+                filledCells--;
+            }
+            
+            selectedCell.textContent = '';
+            gameGrid[row][col] = 0;
+            selectedCell.classList.remove('error', 'hint', 'same-number');
+            
+            // 하이라이트 제거
+            document.querySelectorAll('.sudoku-cell').forEach(cell => {
+                cell.classList.remove('same-number', 'related');
+            });
+            
+            // 관련 셀 다시 하이라이트
+            const cellRow = parseInt(selectedCell.dataset.row);
+            const cellCol = parseInt(selectedCell.dataset.col);
+            highlightRelatedCells(cellRow, cellCol);
+            
+            updateProgress();
+        }
+
+        // 새 게임
+        function newGame() {
+            document.getElementById('successMessage').style.display = 'none';
+            
+            // 레벨 표시기 초기화
+            document.querySelectorAll('.level-step')[1].classList.remove('completed');
+            document.querySelectorAll('.level-step')[1].classList.add('current');
+            
+            // 셀 스타일 초기화
+            document.querySelectorAll('.sudoku-cell').forEach(cell => {
+                cell.style.background = '';
+                cell.style.color = '';
+                cell.style.transform = '';
+                cell.classList.remove('selected', 'error', 'hint', 'same-number', 'related');
+            });
+            
+            selectedCell = null;
+            initGame();
+        }
+
+        // 타이머 시작
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            
+            startTime = Date.now();
+            timerInterval = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const minutes = Math.floor(elapsed / 60000);
+                const seconds = Math.floor((elapsed % 60000) / 1000);
+                
+                document.getElementById('timeValue').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // 통계 업데이트
+        function updateStats() {
+            document.getElementById('hintValue').textContent = hintsRemaining;
+            document.getElementById('errorValue').textContent = errorCount;
+            
+            const hintBtn = document.getElementById('hintBtn');
+            if (hintsRemaining <= 0) {
+                hintBtn.disabled = true;
+                hintBtn.textContent = '💡 힌트 없음';
+                hintBtn.style.opacity = '0.5';
+            } else {
+                hintBtn.disabled = false;
+                hintBtn.textContent = `💡 힌트 (${hintsRemaining})`;
+                hintBtn.style.opacity = '1';
+            }
+        }
+
+        // 키보드 입력 지원 (1-7)
+        document.addEventListener('keydown', (e) => {
+            if (!selectedCell || selectedCell.classList.contains('given')) return;
+            
+            const key = e.key;
+            
+            if (key >= '1' && key <= '7') {
+                const num = parseInt(key);
+                placeNumber(num);
+            } else if (key === 'Delete' || key === 'Backspace') {
+                clearCell();
+            } else if (key === 'Escape') {
+                if (selectedCell) {
+                    selectedCell.classList.remove('selected');
+                    document.querySelectorAll('.sudoku-cell').forEach(cell => {
+                        cell.classList.remove('same-number', 'related');
+                    });
+                    selectedCell = null;
+                }
+            } else if (key === 'Tab') {
+                e.preventDefault();
+                // Tab으로 다음 빈 셀로 이동
+                moveToNextEmptyCell();
+            }
+        });
+
+        // 다음 빈 셀로 이동
+        function moveToNextEmptyCell() {
+            if (!selectedCell) return;
+            
+            const currentRow = parseInt(selectedCell.dataset.row);
+            const currentCol = parseInt(selectedCell.dataset.col);
+            
+            for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 7; j++) {
+                    if ((i > currentRow || (i === currentRow && j > currentCol)) && 
+                        gameGrid[i][j] === 0) {
+                        const nextCell = document.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+                        selectCell(nextCell);
+                        return;
+                    }
+                }
+            }
+            
+            // 처음부터 다시 찾기
+            for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 7; j++) {
+                    if (gameGrid[i][j] === 0) {
+                        const nextCell = document.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+                        selectCell(nextCell);
+                        return;
+                    }
+                }
+            }
+        }
+
+        // 터치 지원 (길게 누르면 지우기)
+        let touchStartTime = 0;
+        
+        document.addEventListener('touchstart', (e) => {
+            touchStartTime = Date.now();
+        });
+
+        document.addEventListener('touchend', (e) => {
+            const touchDuration = Date.now() - touchStartTime;
+            
+            if (touchDuration > 500 && selectedCell && !selectedCell.classList.contains('given')) {
+                clearCell();
+            }
+        });
+
+        // 더블 클릭으로 자동 완성 (고급 기능)
+        document.addEventListener('dblclick', (e) => {
+            if (!selectedCell || selectedCell.classList.contains('given')) return;
+            
+            const row = parseInt(selectedCell.dataset.row);
+            const col = parseInt(selectedCell.dataset.col);
+            const possibleNumbers = getPossibleNumbers(row, col);
+            
+            if (possibleNumbers.length === 1) {
+                placeNumber(possibleNumbers[0]);
+                alert('✨ 자동 완성! 유일한 가능한 숫자를 입력했습니다.');
+            } else if (possibleNumbers.length === 0) {
+                alert('❌ 이 셀에 입력 가능한 숫자가 없습니다. 다른 셀을 확인해주세요.');
+            } else {
+                alert(`🤔 ${possibleNumbers.length}개의 가능한 숫자가 있습니다: ${possibleNumbers.join(', ')}`);
+            }
+        });
+
+        // 초기화
+        initGame();
+    </script>
+</body>
+</html>
