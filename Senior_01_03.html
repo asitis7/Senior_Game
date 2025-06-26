@@ -147,16 +147,19 @@
             display: flex;
             justify-content: center;
             margin: 30px 0;
+            width: 100%;
         }
 
         .sudoku-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
+            gap: 3px;
             background: #333;
             border: 4px solid #333;
             border-radius: 15px;
-            padding: 8px;
+            padding: 10px;
+            width: 420px;
+            height: 420px;
         }
 
         .sudoku-cell {
@@ -167,12 +170,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.6em;
+            font-size: 1.8em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
             border-radius: 8px;
             position: relative;
+            min-width: 55px;
+            min-height: 55px;
         }
 
         .sudoku-cell:hover {
@@ -393,9 +398,16 @@
         }
 
         @media (max-width: 800px) {
+            .sudoku-grid {
+                width: 350px;
+                height: 350px;
+            }
+            
             .sudoku-cell {
                 width: 45px;
                 height: 45px;
+                min-width: 45px;
+                min-height: 45px;
                 font-size: 1.4em;
             }
 
@@ -517,6 +529,7 @@
 
         // 게임 초기화
         function initGame() {
+            console.log('Initializing game...');
             generatePuzzle();
             createGrid();
             createNumberPad();
@@ -527,16 +540,19 @@
             updateProgress();
             document.getElementById('successMessage').style.display = 'none';
             document.getElementById('brainImprovement').style.display = 'none';
+            console.log('Game initialized');
         }
 
         // 7x7 스도쿠 퍼즐 생성 (매우 쉬운 난이도)
         function generatePuzzle() {
+            console.log('Generating puzzle...');
             gameGrid = [];
             solutionGrid = [];
             filledCells = 0;
 
             // 7x7 해답 그리드 생성
             generateSolution();
+            console.log('Solution generated:', solutionGrid);
 
             // 게임 그리드 생성 (기초 레벨: 60-65% 미리 채움)
             for (let i = 0; i < 7; i++) {
@@ -553,6 +569,7 @@
 
             // 최소 힌트 보장
             ensureMinimumClues();
+            console.log('Game grid generated:', gameGrid);
         }
 
         // 7x7 스도쿠 해답 생성 (라틴 사각형)
@@ -636,6 +653,11 @@
         // 그리드 생성
         function createGrid() {
             const grid = document.getElementById('sudokuGrid');
+            if (!grid) {
+                console.error('sudokuGrid element not found');
+                return;
+            }
+            
             grid.innerHTML = '';
             
             for (let i = 0; i < 7; i++) {
@@ -654,6 +676,8 @@
                     grid.appendChild(cell);
                 }
             }
+            
+            console.log('Grid created with', grid.children.length, 'cells');
         }
 
         // 숫자 패드 생성
@@ -1014,7 +1038,23 @@
                 }
             }
         });            // 초기화
-        initGame();
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, starting game...');
+            setTimeout(() => {
+                initGame();
+            }, 100);
+        });
+        
+        // 백업 초기화 (DOMContentLoaded가 이미 지났을 경우)
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                initGame();
+            });
+        } else {
+            setTimeout(() => {
+                initGame();
+            }, 100);
+        }
 
             // 3x3 박스 체크
             const boxRow = Math.floor(row / 3) * 3;
